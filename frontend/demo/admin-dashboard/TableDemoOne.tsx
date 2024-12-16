@@ -4,6 +4,7 @@ import {
   TableBody,
   TableCaption,
   TableCell,
+  TableFooter,
   TableHead,
   TableHeader,
   TableRow,
@@ -61,7 +62,7 @@ export function TableDemoOne() {
   if (isLoading) return <div>loading...</div>;
 
   return (
-    <Table>
+    <Table className="border border-black">
       <TableCaption>A list of booked appointments for Demo Class</TableCaption>
       <TableHeader>
         <TableRow>
@@ -112,6 +113,12 @@ export function TableDemoOne() {
           </TableRow>
         ))}
       </TableBody>
+      <TableFooter>
+          <TableRow>
+            <TableCell colSpan={3}>Total</TableCell>
+            <TableCell className="text-right">3</TableCell>
+          </TableRow>
+        </TableFooter>
     </Table>
   );
 }

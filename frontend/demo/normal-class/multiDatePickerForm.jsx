@@ -19,7 +19,6 @@ import {
 import { toast } from "@/hooks/use-toast";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
-// import PhoneInput from "react-phone-input-2";
 
 import {
   Table,
@@ -30,7 +29,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-// import { SetStateAction, useState } from "react";
 
 const items = [
   {
@@ -77,31 +75,24 @@ const weekdays = [
 const times = [
   {
     id: new Date().toLocaleTimeString().substring(11, 16),
-    label: "",
   },
   {
     id: new Date().toLocaleTimeString().substring(11, 16),
-    label: "",
   },
   {
     id: new Date().toLocaleTimeString().substring(12, 18),
-    label: "",
   },
   {
     id: new Date().toLocaleTimeString().substring(15, 20),
-    label: "",
   },
   {
     id: new Date().toLocaleTimeString().substring(10, 23),
-    label: "",
   },
   {
     id: new Date().toLocaleTimeString().substring(16, 21),
-    label: "",
   },
   {
     id: new Date().toLocaleTimeString().substring(17, 24),
-    label: "",
   },
 ];
 
@@ -138,19 +129,11 @@ export function MultiDatePickerForm() {
       teacher: "",
       batch: "Prime B21",
       date: undefined,
-      time: ['','','','','','','',],
+      time: ["sun", "mon", "tue", "wed", "thu", "fri", "sat"],
       items: ["1hour"],
       weekdays: ["mon"],
     },
   });
-
-  // const [startDate, setStartDate] = useState();
-  // const [endDate, setEndDate] = useState();
-
-  // const dateRangeHandler = (value) => {
-  //   setStartDate(value[0]);
-  //   setEndDate(value[1]);
-  // };
 
   async function onSubmit(data) {
     try {
@@ -199,16 +182,8 @@ export function MultiDatePickerForm() {
                     name={`time.${index}`}
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="font-semibold">
-                         {item.label}
-                        </FormLabel>
-
                         <FormControl>
-                          <Input
-                            type="time"
-                            {...field}
-                            className="bg-white"
-                          />
+                          <Input type="time" {...field} className="bg-white" />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -253,27 +228,6 @@ export function MultiDatePickerForm() {
             </FormItem>
           )}
         />
-
-        {/* <FormField
-          control={form.control}
-          name="time"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className="font-semibold">Your time slot</FormLabel>
-
-              <FormControl>
-                <Input
-                  type="time"
-                  placeholder="e.g. - AI for kids"
-                  {...field}
-                  required
-                  className="bg-white"
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        /> */}
 
         <FormField
           control={form.control}
