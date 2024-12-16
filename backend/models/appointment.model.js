@@ -25,6 +25,11 @@ const appointmentSchema = new Schema(
     items:{
         required: true,
         type: [String]
+    },
+    status:{
+      required:true,
+      type: Boolean,
+      default: false,
     }
   
   },

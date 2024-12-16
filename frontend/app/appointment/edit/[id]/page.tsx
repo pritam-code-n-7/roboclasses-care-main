@@ -55,12 +55,12 @@ const Page = ({ params }: { params: { id: string } }) => {
   // handle delete appointment
   const handleCancelAppointment = async () => {
     try {
-      const res = await axios.delete(
+      const res = await axios.patch(
         `${process.env.NEXT_PUBLIC_API_URL}/api/appointments/${id}`
       );
       console.log(res.data);
       toast({
-        title: "Your appointment is got cancelled!",
+        title: "Your appointment got cancelled!",
         description: (
           <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4"></pre>
         ),
@@ -71,7 +71,7 @@ const Page = ({ params }: { params: { id: string } }) => {
   };
 
   return (
-    <div>
+    <div className="w-[700px]">
       <EditAppointmentForm
         date={date}
         time={time}

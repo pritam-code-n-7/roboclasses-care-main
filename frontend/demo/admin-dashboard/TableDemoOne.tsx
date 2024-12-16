@@ -21,10 +21,11 @@ export interface appointmentTypes {
   date: Date;
   time: string;
   course?: string;
+  status?: boolean;
   handleDateChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handleTimeChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handleSubmit?: (event: React.FormEvent<HTMLFormElement>) => void;
-  handleDelete?: ()=>void;
+  handleDelete?: () => void;
 }
 
 export interface deleteType {
@@ -34,10 +35,27 @@ export interface deleteType {
 const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 
 export function TableDemoOne() {
-  const { data, error, isLoading } = useSWR<appointmentTypes[]>(
+  const { data, error, isLoading, mutate } = useSWR<appointmentTypes[]>(
     `${process.env.NEXT_PUBLIC_API_URL}/api/appointments`,
     fetcher
   );
+
+
+// handle delete appointment records
+  const handleDelete = async (appointmentId: string) => {
+    try {
+      const res = await axios.delete(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/appointments/${appointmentId}`
+      );
+      console.log(res.data);
+
+      mutate((data) =>
+        data?.filter((appointment) => appointment._id !== appointmentId)
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   if (error) return <div>failed to load</div>;
   if (isLoading) return <div>loading...</div>;
@@ -53,6 +71,7 @@ export function TableDemoOne() {
           <TableHead className="text-right">Time</TableHead>
           <TableHead className="text-right">Status</TableHead>
           <TableHead className="text-right">Edit</TableHead>
+          <TableHead className="text-right">Delete</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -67,14 +86,29 @@ export function TableDemoOne() {
             </TableCell>
             <TableCell className="text-right">{appointment.time}</TableCell>
             <TableCell className="text-right">
-                <EditButton name="active " type="button" varient="ghost"/>
+              <EditButton
+                name={appointment.status === true ? "Cancelled" : "Active"}
+                type="button"
+                varient="ghost"
+              />
             </TableCell>
             <TableCell className="text-right">
               <Link href={`/appointment/edit/${appointment._id}`}>
                 <EditButton name="Edit" type="button" />
               </Link>
             </TableCell>
-            
+
+            <TableCell className="text-right">
+              {appointment.status === true ? (
+                <EditButton
+                  name="Delete"
+                  type="button"
+                  onClick={() => handleDelete(appointment._id ?? '')}
+                />
+              ) : (
+                ""
+              )}
+            </TableCell>
           </TableRow>
         ))}
       </TableBody>

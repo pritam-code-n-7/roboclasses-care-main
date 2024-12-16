@@ -46,7 +46,7 @@ const FormSchema = z.object({
 
   course: z
     .string()
-    .min(2, { message: "course must contain atleast 2 chracter" }),
+    .min(1, { message: "course must contain atleast 2 chracter" }),
 
   time: z.string({ required_error: "Time slot is required." }),
 

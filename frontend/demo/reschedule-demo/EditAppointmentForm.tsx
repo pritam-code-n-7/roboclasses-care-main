@@ -11,8 +11,8 @@ const EditAppointmentForm = ({ date, time, handleDateChange, handleTimeChange, h
       <Input required type="date" value={format(date, "yyyy-MM-dd")} onChange={handleDateChange}/>
       <Input required type="time" value={time} onChange={handleTimeChange}/>
 
-      <Button type="submit">Update</Button>
-      <Button type="button" onClick={handleDelete}>Cancel</Button>
+      <Button type="submit">Reschedule</Button>
+      <Button type="button" onClick={handleDelete}>Cancel Appointment</Button>
 
     </form>
   );

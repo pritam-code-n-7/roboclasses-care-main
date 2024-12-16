@@ -19,7 +19,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(
   cors({
     origin: "*",
-    methods: ["GET", "POST", "PUT", "DELETE"],
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
     credentials: true,
   })
 );
@@ -128,6 +128,30 @@ app.delete("/api/appointments/:id", async(req, res) => {
     });
   }
 });
+
+// update appointment status
+app.patch("/api/appointments/:id",async(req, res)=>{
+  try {
+    const {id} = req.params;
+    const data = await Appointment.findByIdAndUpdate(id,{ status: true }, {new:true})   
+    console.log(data);
+
+    res.status(200).json({
+      success:true,
+      message: "Your appointment status updated successfully."
+    })
+     
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      success:false,
+      message: "Internal server error!"
+    })
+
+    
+  }
+
+})
 
 // listning on port
 const PORT = process.env.PORT || 5000;
