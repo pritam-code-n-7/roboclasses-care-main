@@ -5,11 +5,12 @@ interface btnType {
   type: "submit" | "button" | "reset";
   onClick?: () => void;
   varient?: "default" | "destructive" | "outline" | "secondary" | "ghost" | "link";
+  className?:string;
 }
 
-export function EditButton({ name, type, onClick, varient }: btnType) {
+export function EditButton({ name, type, onClick, varient, className }: btnType) {
   return (
-    <Button type={type} onClick={onClick} variant={varient}>
+    <Button type={type} onClick={onClick} variant={varient} className={className}>
       {name}
     </Button>
   );

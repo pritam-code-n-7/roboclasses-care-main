@@ -115,8 +115,8 @@ export function TableDemoOne() {
       </TableBody>
       <TableFooter>
           <TableRow>
-            <TableCell colSpan={3}>Total</TableCell>
-            <TableCell className="text-right">3</TableCell>
+            <TableCell colSpan={6}>Total</TableCell>
+            <TableCell className="text-right">{data?.length}</TableCell>
           </TableRow>
         </TableFooter>
     </Table>

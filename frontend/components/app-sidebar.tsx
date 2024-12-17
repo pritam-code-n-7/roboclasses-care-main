@@ -143,12 +143,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
-      <SidebarContent className="bg-neutral-300 rounded">
+      <SidebarContent>
         <NavMain items={data.navMain} />
         <NavProjects projects={data.projects} />
         <NavSecondary items={data.navSecondary} className="mt-auto" />
       </SidebarContent>
-      <SidebarFooter className="bg-neutral-400 rounded">
+      <SidebarFooter>
         <NavUser user={data.user} />
       </SidebarFooter>
     </Sidebar>

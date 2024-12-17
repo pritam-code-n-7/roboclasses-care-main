@@ -1,13 +1,47 @@
-import { MultiDatePickerForm } from '@/demo/normal-class/multiDatePickerForm'
-import React from 'react'
+"use client";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
+import { SidebarInset, SidebarTrigger } from "@/components/ui/sidebar";
+import { MultiDatePickerForm } from "@/demo/normal-class/multiDatePickerForm";
+import { Separator } from "@radix-ui/react-separator";
+import { usePathname } from "next/navigation";
+import React from "react";
 
-const page = () => {
+const Page = () => {
+  const pathname = usePathname();
   return (
-    <div className='w-[600px] grid grid-cols-1 ml-96 mt-28'>
-    <p className='text-4xl font-bold mb-2'>Book Bulk Appointments</p>
-    <MultiDatePickerForm />
-  </div>
-  )
-}
+    <SidebarInset className="w-screen">
+      <header className="flex h-16 shrink-0 items-center gap-2 border-b">
+        <div className="flex items-center gap-2 px-3">
+          <SidebarTrigger />
+          <Separator orientation="vertical" className="mr-2 h-4" />
+          <Breadcrumb>
+            <BreadcrumbList>
+              <BreadcrumbItem className="hidden md:block">
+                <BreadcrumbLink href="/">
+                  Scheduler
+                </BreadcrumbLink>
+              </BreadcrumbItem>
+              <BreadcrumbSeparator className="hidden md:block" />
+              <BreadcrumbItem>
+                <BreadcrumbPage>{pathname == '/appointment/reminder/normal-class' && 'Normal Class'}</BreadcrumbPage>
+              </BreadcrumbItem>
+            </BreadcrumbList>
+          </Breadcrumb>
+        </div>
+      </header>
+      <div className="w-[600px] grid grid-cols-1 p-20">
+        <p className="text-4xl font-bold mb-2">Book Bulk Appointments</p>
+        <MultiDatePickerForm />
+      </div>
+    </SidebarInset>
+  );
+};
 
-export default page
+export default Page;
