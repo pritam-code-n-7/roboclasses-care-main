@@ -58,44 +58,12 @@ const data = {
       url: "/adminDashboard",
       icon: LayoutDashboard,
       isActive: false,
-      items: [
-        {
-          title: "Calender View",
-          url: "#",
-        },
-        {
-          title: "Modify Appointments",
-          url: "#",
-        },
-        {
-          title: "Track Appointments",
-          url: "#",
-        },
-       
-      ],
+      
     },
     {
-      title: "Settings",
-      url: "#",
+      title: "Manage Attendance",
+      url: "/attendance",
       icon: Settings2,
-      items: [
-        {
-          title: "General",
-          url: "#",
-        },
-        {
-          title: "Team",
-          url: "#",
-        },
-        {
-          title: "Billing",
-          url: "#",
-        },
-        {
-          title: "Limits",
-          url: "#",
-        },
-      ],
     },
   ],
   navSecondary: [
