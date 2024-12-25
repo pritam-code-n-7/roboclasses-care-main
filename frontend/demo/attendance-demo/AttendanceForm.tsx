@@ -66,10 +66,11 @@ export function AttendanceForm() {
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     try {
       const res = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/appointments`,
+        `${process.env.NEXT_PUBLIC_API_URL}/api/attendances`,
         data
       );
       console.log(res.data);
+      form.reset();
     } catch (error) {
       console.error("Error booking appointment", error);
     }

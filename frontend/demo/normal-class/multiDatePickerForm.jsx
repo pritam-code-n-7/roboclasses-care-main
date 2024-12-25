@@ -142,6 +142,7 @@ export function MultiDatePickerForm() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
       });
+      form.reset();
     } catch (error) {
       console.error("Error booking appointment", error);
     }

@@ -5,6 +5,7 @@ import helmet from "helmet";
 
 import { dbConnect } from "./config/db.js";
 import { Appointment } from "./models/appointment.model.js";
+import { Attendance } from "./models/attendance.model.js";
 // import scheduleReminders from "./jobs/scheduler.js";
 
 dotenv.config();
@@ -13,21 +14,28 @@ const app = express();
 // connect to db
 dbConnect();
 
-
-
 // middlewares
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(helmet())
+app.use(helmet());
 
 // create appointments
 app.post("/api/appointments", async (req, res) => {
   try {
-    const { date, userName, destination, course,teacher, time, items } = req.body;
-    const newAppointment = { date, userName, destination, course, teacher, time, items }
+    const { date, userName, destination, course, teacher, time, items } =
+      req.body;
+    const newAppointment = {
+      date,
+      userName,
+      destination,
+      course,
+      teacher,
+      time,
+      items,
+    };
     console.log(newAppointment);
-    
+
     const createAppointments = await Appointment.create({
       date,
       userName,
@@ -84,10 +92,11 @@ app.get("/api/appointments/:id", async (req, res) => {
 });
 
 // edit appointment
-app.put("/api/appointments/:id", async(req, res) => {
+app.put("/api/appointments/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    const { date, userName, destination, time, items, course, teacher } = req.body;
+    const { date, userName, destination, time, items, course, teacher } =
+      req.body;
     const data = await Appointment.findByIdAndUpdate(
       id,
       { date, userName, destination, time, items, course, teacher },
@@ -108,7 +117,7 @@ app.put("/api/appointments/:id", async(req, res) => {
 });
 
 // delete appointment
-app.delete("/api/appointments/:id", async(req, res) => {
+app.delete("/api/appointments/:id", async (req, res) => {
   try {
     const { id } = req.params;
     const data = await Appointment.findByIdAndDelete(id);
@@ -127,28 +136,56 @@ app.delete("/api/appointments/:id", async(req, res) => {
 });
 
 // update appointment status
-app.patch("/api/appointments/:id",async(req, res)=>{
+app.patch("/api/appointments/:id", async (req, res) => {
   try {
-    const {id} = req.params;
-    const data = await Appointment.findByIdAndUpdate(id,{ status: true }, {new:true})   
+    const { id } = req.params;
+    const data = await Appointment.findByIdAndUpdate(
+      id,
+      { status: true },
+      { new: true }
+    );
     console.log(data);
 
     res.status(200).json({
-      success:true,
-      message: "Your appointment status updated successfully."
-    })
-     
+      success: true,
+      message: "Your appointment status updated successfully.",
+    });
   } catch (error) {
     console.error(error);
     res.status(500).json({
-      success:false,
-      message: "Internal server error!"
-    })
-
-    
+      success: false,
+      message: "Internal server error!",
+    });
   }
+});
 
-})
+// for attendance module
+// create new batch
+app.post("/api/attendances", async (req, res) => {
+  try {
+    const { teacher, date, classes, batch, score } = req.body;
+    const data = await Attendance.create({
+      teacher,
+      date,
+      classes,
+      batch,
+      score,
+    });
+
+    console.log(data);
+
+    res.status(201).json({
+      success: true,
+      message: "New batch successfully created.",
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      success: false,
+      message: "Internal server error!",
+    });
+  }
+});
 
 // listning on port
 const PORT = process.env.PORT || 5000;

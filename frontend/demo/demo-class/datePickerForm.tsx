@@ -78,6 +78,7 @@ export function DatePickerForm() {
         data
       );
       console.log(res.data);
+      form.reset();
     } catch (error) {
       console.error("Error booking appointment", error);
     }
