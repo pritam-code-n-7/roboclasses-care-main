@@ -18,20 +18,23 @@ const appointmentSchema = new Schema(
       required: true,
       type: String,
     },
+    teacher: {
+      required: true,
+      type: String,
+    },
     time: {
       required: true,
       type: String,
     },
-    items:{
-        required: true,
-        type: [String]
+    items: {
+      required: true,
+      type: [String],
     },
-    status:{
-      required:true,
+    status: {
+      required: true,
       type: Boolean,
       default: false,
-    }
-  
+    },
   },
   {
     timestamps: true,
@@ -39,4 +42,4 @@ const appointmentSchema = new Schema(
 );
 
 export const Appointment =
- mongoose.models.Appointment ?? model("Appointment", appointmentSchema);
+  mongoose.models.Appointment ?? model("Appointment", appointmentSchema);

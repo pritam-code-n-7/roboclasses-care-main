@@ -7,7 +7,6 @@ This project consists of a frontend and backend, both of which can be run locall
 
 ## Areas of improvement
 
-- Edit screen will be added for Admin Dashboard
 - for Normal Class new api will be used in backend code and update in the frontend according to it.
 
 ---
@@ -39,6 +38,8 @@ This project consists of a frontend and backend, both of which can be run locall
    ```bash
    npm run dev
 
+3. **Replace the .env.local file's credentials with your own credentials**:
+
 
 ### Backend
 
@@ -51,5 +52,5 @@ This project consists of a frontend and backend, both of which can be run locall
    ```bash
    npm run dev     
 
-3. **Replace the .env files credentials with your own**
-   - 
+3. **Replace the .env file's credentials with your own**:
+

@@ -22,7 +22,7 @@ import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import axios from "axios";
 
-// import PhoneInput from "react-phone-input-2";
+import PhoneInput from "react-phone-input-2";
 
 const items = [
   {
@@ -43,10 +43,12 @@ const FormSchema = z.object({
     .min(2, { message: "name must contain atleast 2 character." }),
 
   destination: z.string().min(12, { message: "mobile is incorrect." }),
-
   course: z
     .string()
     .min(1, { message: "course must contain atleast 2 chracter" }),
+  teacher: z
+    .string()
+    .min(2, { message: "Teacher name must contain atleast 2 character." }),
 
   time: z.string({ required_error: "Time slot is required." }),
 
@@ -62,8 +64,8 @@ export function DatePickerForm() {
       userName: "",
       destination: "+971",
       course: "",
-      date: format(new Date(), 'yyyy-MM-dd'),
-      // date: undefined,
+      teacher: "",
+      date: format(new Date(), "yyyy-MM-dd"),
       time: new Date().toLocaleTimeString().substring(11, 16),
       items: ["24hour", "1hour"],
     },
@@ -114,7 +116,7 @@ export function DatePickerForm() {
             </FormItem>
           )}
         />
-        <FormField
+        {/* <FormField
           control={form.control}
           name="destination"
           render={({ field }) => (
@@ -131,8 +133,8 @@ export function DatePickerForm() {
               <FormMessage />
             </FormItem>
           )}
-        />
-        {/* <FormField
+        /> */}
+        <FormField
           control={form.control}
           name="destination"
           render={({ field }) => (
@@ -150,17 +152,35 @@ export function DatePickerForm() {
               <FormMessage />
             </FormItem>
           )}
-        /> */}
+        />
         <FormField
           control={form.control}
           name="course"
           render={({ field }) => (
             <FormItem>
               <FormLabel className="font-semibold">Course Details</FormLabel>
-
               <FormControl>
                 <Input
                   placeholder="e.g. - AI for kids"
+                  {...field}
+                  required
+                  className="bg-white"
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="teacher"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className="font-semibold">Teacher Name</FormLabel>
+
+              <FormControl>
+                <Input
+                  placeholder="type your teacher name"
                   {...field}
                   required
                   className="bg-white"

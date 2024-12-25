@@ -3,6 +3,7 @@ import {
   TableBody,
   TableCaption,
   TableCell,
+  TableFooter,
   TableHead,
   TableHeader,
   TableRow,
@@ -56,7 +57,12 @@ export function TableDemoTwo() {
           </TableRow>
         ))}
       </TableBody>
-      
+      <TableFooter>
+        <TableRow>
+          <TableCell colSpan={6}>Total</TableCell>
+          <TableCell className="text-right">{3}</TableCell>
+        </TableRow>
+      </TableFooter>
     </Table>
   );
 }

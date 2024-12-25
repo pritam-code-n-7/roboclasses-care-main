@@ -22,6 +22,7 @@ export interface appointmentTypes {
   date: Date;
   time: string;
   course?: string;
+  teacher?: string;
   status?: boolean;
   handleDateChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handleTimeChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -41,8 +42,7 @@ export function TableDemoOne() {
     fetcher
   );
 
-
-// handle delete appointment records
+  // handle delete appointment records
   const handleDelete = async (appointmentId: string) => {
     try {
       const res = await axios.delete(
@@ -68,6 +68,7 @@ export function TableDemoOne() {
         <TableRow>
           <TableHead className="w-[100px]">Student Name</TableHead>
           <TableHead className="w-[100px]">Course Name</TableHead>
+          <TableHead className="w-[100px]">Teacher Name</TableHead>
           <TableHead>Date</TableHead>
           <TableHead className="text-right">Time</TableHead>
           <TableHead className="text-right">Status</TableHead>
@@ -82,6 +83,8 @@ export function TableDemoOne() {
               {appointment.userName}
             </TableCell>
             <TableCell className="font-medium">{appointment.course}</TableCell>
+            <TableCell className="font-medium">{appointment.teacher}</TableCell>
+
             <TableCell>
               {format(appointment.date ?? "", "MMM dd, yyyy")}
             </TableCell>
@@ -104,7 +107,7 @@ export function TableDemoOne() {
                 <EditButton
                   name="Delete"
                   type="button"
-                  onClick={() => handleDelete(appointment._id ?? '')}
+                  onClick={() => handleDelete(appointment._id ?? "")}
                 />
               ) : (
                 ""
@@ -114,11 +117,11 @@ export function TableDemoOne() {
         ))}
       </TableBody>
       <TableFooter>
-          <TableRow>
-            <TableCell colSpan={6}>Total</TableCell>
-            <TableCell className="text-right">{data?.length}</TableCell>
-          </TableRow>
-        </TableFooter>
+        <TableRow>
+          <TableCell colSpan={7}>Total</TableCell>
+          <TableCell className="text-right">{data?.length}</TableCell>
+        </TableRow>
+      </TableFooter>
     </Table>
   );
 }

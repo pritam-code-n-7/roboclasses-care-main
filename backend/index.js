@@ -1,34 +1,31 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
+import helmet from "helmet";
 
 import { dbConnect } from "./config/db.js";
 import { Appointment } from "./models/appointment.model.js";
-import scheduleReminders from "./jobs/scheduler.js";
-dotenv.config();
+// import scheduleReminders from "./jobs/scheduler.js";
 
+dotenv.config();
 const app = express();
 
 // connect to db
 dbConnect();
 
+
+
+// middlewares
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
-// cors middleware
-app.use(
-  cors({
-    origin: "*",
-    methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
-    credentials: true,
-  })
-);
+app.use(helmet())
 
 // create appointments
 app.post("/api/appointments", async (req, res) => {
   try {
-    const { date, userName, destination, course, time, items } = req.body;
-    const newAppointment = { date, userName, destination, course, time, items }
+    const { date, userName, destination, course,teacher, time, items } = req.body;
+    const newAppointment = { date, userName, destination, course, teacher, time, items }
     console.log(newAppointment);
     
     const createAppointments = await Appointment.create({
@@ -36,12 +33,12 @@ app.post("/api/appointments", async (req, res) => {
       userName,
       destination,
       course,
+      teacher,
       time,
       items,
     });
     // await scheduleReminders(newAppointment)
     console.log(createAppointments);
-
     return res.status(201).json({
       success: true,
       message: "appointment create successfully.",
@@ -90,10 +87,10 @@ app.get("/api/appointments/:id", async (req, res) => {
 app.put("/api/appointments/:id", async(req, res) => {
   try {
     const { id } = req.params;
-    const { date, userName, destination, time, items, course } = req.body;
+    const { date, userName, destination, time, items, course, teacher } = req.body;
     const data = await Appointment.findByIdAndUpdate(
       id,
-      { date, userName, destination, time, items, course },
+      { date, userName, destination, time, items, course, teacher },
       { new: true }
     );
     console.log(data);
