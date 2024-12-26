@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/collapsible";
 import Link from "next/link";
 
+
 export function CollapsibleDemo() {
   const [isOpen, setIsOpen] = React.useState(false);
 
@@ -30,21 +31,21 @@ export function CollapsibleDemo() {
         </CollapsibleTrigger>
       </div>
       <Link
-        href="#"
-        className="rounded-md border flex items-center p-2 h-10 font-bold text-sm"
+        href="/attendance"
+        className="rounded-md border flex items-center p-2 h-10 font-bold text-sm hover:underline"
       >
         New Batch Entry
       </Link>
       <CollapsibleContent className="space-y-2">
         <Link
           href="#"
-          className="rounded-md border flex items-center p-2 h-10 font-bold text-sm"
+          className="rounded-md border flex items-center p-2 h-10 font-bold text-sm hover:underline"
         >
           Active Batches
         </Link>
         <Link
           href="#"
-          className="rounded-md border flex items-center p-2 h-10 font-bold text-sm"
+          className="rounded-md border flex items-center p-2 h-10 font-bold text-sm hover:underline"
         >
           Past Batches
         </Link>
