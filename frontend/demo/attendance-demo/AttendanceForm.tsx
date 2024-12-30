@@ -10,7 +10,6 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -19,35 +18,89 @@ import {
 
 import { toast } from "@/hooks/use-toast";
 import { Input } from "@/components/ui/input";
-import { Checkbox } from "@/components/ui/checkbox";
 import axios from "axios";
 
-import PhoneInput from "react-phone-input-2";
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 
-const classes = [
+const weekdays = [
   {
-    id: "class1",
-    label: "Class 1",
+    id: "sun",
+    label: "Sunday",
   },
   {
-    id: "class2",
-    label: "Class 2",
+    id: "mon",
+    label: "Monday",
   },
-] as const;
+  {
+    id: "tue",
+    label: "Tuesday",
+  },
+  {
+    id: "wed",
+    label: "Wednesday",
+  },
+  {
+    id: "thu",
+    label: "Thursday",
+  },
+  {
+    id: "fri",
+    label: "Friday",
+  },
+  {
+    id: "sat",
+    label: "Saturday",
+  },
+];
+
+const times = [
+  {
+    id: new Date().toLocaleTimeString().substring(11, 16),
+  },
+  {
+    id: new Date().toLocaleTimeString().substring(11, 16),
+  },
+  {
+    id: new Date().toLocaleTimeString().substring(12, 18),
+  },
+  {
+    id: new Date().toLocaleTimeString().substring(15, 20),
+  },
+  {
+    id: new Date().toLocaleTimeString().substring(10, 23),
+  },
+  {
+    id: new Date().toLocaleTimeString().substring(16, 21),
+  },
+  {
+    id: new Date().toLocaleTimeString().substring(17, 24),
+  },
+];
 
 const FormSchema = z.object({
-  date: z.string({ required_error: "A date is required." }),
+
   batch: z
     .string()
     .min(1, { message: "Batch number must contain atleast 1 character" }),
+
   teacher: z
     .string()
     .min(2, { message: "Teacher name must contain atleast 2 character." }),
 
-  score: z.string().min(1,{message:"Assessment score must contain a value"}),
+  time: z.array(z.string()).refine((value) => value.some((item) => item), {
+    message: "You have to select at least one time.",
+  }),
 
-  classes: z.array(z.string()).refine((value) => value.some((item) => item), {
-    message: "You have to select at least one item.",
+  weekdays: z.array(z.string()).refine((value) => value.some((item) => item), {
+    message: "You have to select at least one day.",
   }),
 });
 
@@ -56,10 +109,9 @@ export function AttendanceForm() {
     resolver: zodResolver(FormSchema),
     defaultValues: {
       teacher: "",
-      date: format(new Date(), "yyyy-MM-dd"),
-      classes: ["class1"],
       batch: "",
-      score: "",
+      time: ["sun", "mon", "tue", "wed", "thu", "fri", "sat"],
+      weekdays: ["mon"],
     },
   });
 
@@ -91,6 +143,58 @@ export function AttendanceForm() {
         onSubmit={form.handleSubmit(onSubmit)}
         className="flex flex-col gap-4"
       >
+        <Table>
+          <TableCaption>A list of weekdays with time slot</TableCaption>
+          <TableHeader>
+            <TableRow>
+              {weekdays.map((item, index) => (
+                <TableHead className="w-[100px]" key={index}>
+                  {item.label}
+                </TableHead>
+              ))}
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            <TableRow>
+              {times.map((item, index) => (
+                <TableCell className="font-medium" key={index}>
+                  <FormField
+                    control={form.control}
+                    name={`time.${index}`}
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormControl>
+                          <Input type="time" {...field} className="bg-white" />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </TableCell>
+              ))}
+            </TableRow>
+          </TableBody>
+        </Table>
+
+        <FormField
+          control={form.control}
+          name="batch"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className="font-semibold">Batch Number</FormLabel>
+
+              <FormControl>
+                <Input
+                  placeholder="e.g. Python B12 L1"
+                  {...field}
+                  required
+                  className="bg-white"
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
         <FormField
           control={form.control}
           name="teacher"
@@ -100,113 +204,7 @@ export function AttendanceForm() {
 
               <FormControl>
                 <Input
-                  placeholder="type your teacher name"
-                  {...field}
-                  required
-                  className="bg-white"
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-         <FormField
-          control={form.control}
-          name="batch"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className="font-semibold">Batch Number</FormLabel>
-
-              <FormControl>
-                <Input
-                  placeholder="type your batch number"
-                  {...field}
-                  required
-                  className="bg-white"
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-          <FormField
-          control={form.control}
-          name="classes"
-          render={() => (
-            <FormItem>
-              <div className="mb-4">
-                <FormLabel className="font-bold">
-                  Class number!
-                </FormLabel>
-                <FormDescription>
-                  Select a class number  
-                </FormDescription>
-              </div>
-              {classes.map((item) => (
-                <FormField
-                  key={item.id}
-                  control={form.control}
-                  name="classes"
-                  render={({ field }) => {
-                    return (
-                      <FormItem
-                        key={item.id}
-                        className="flex flex-row items-start space-x-3 space-y-0"
-                      >
-                        <FormControl>
-                          <Checkbox
-                            checked={field.value?.includes(item.id)}
-                            onCheckedChange={(checked) => {
-                              return checked
-                                ? field.onChange([...field.value, item.id])
-                                : field.onChange(
-                                    field.value?.filter(
-                                      (value) => value !== item.id
-                                    )
-                                  );
-                            }}
-                          />
-                        </FormControl>
-                        <FormLabel className="font-normal">
-                          {item.label}
-                        </FormLabel>
-                      </FormItem>
-                    );
-                  }}
-                />
-              ))}
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="date"
-          render={({ field }) => (
-            <FormItem className="flex flex-col">
-              <FormLabel className="font-semibold">
-                Take attendance
-              </FormLabel>
-              <FormControl>
-                <Input type="date" {...field} required className="bg-white" />
-              </FormControl>
-              <FormDescription>
-                Take attendance for your class!
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-         <FormField
-          control={form.control}
-          name="score"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className="font-semibold">Assessment Score</FormLabel>
-
-              <FormControl>
-                <Input
-                  placeholder="type your assesment score"
+                  placeholder="e.g. Monty"
                   {...field}
                   required
                   className="bg-white"

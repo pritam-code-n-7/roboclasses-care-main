@@ -5,11 +5,7 @@ const attendanceSchema = new mongoose.Schema({
         type:String,
         required:true
     },
-    date:{
-        type:Date,
-        required:true
-    },
-    classes:{
+    time:{
         type:[String],
         required:true
     },
@@ -17,10 +13,7 @@ const attendanceSchema = new mongoose.Schema({
         type:String,
         required:true
     },
-    score:{
-        type:String,
-        required:true
-    }
+   
 },{timestamps:true})
 
 export const Attendance = mongoose.models.Attendance ?? mongoose.model('Attendance',attendanceSchema)

@@ -109,9 +109,9 @@ const FormSchema = z.object({
     message: "You have to select at least one item.",
   }),
 
-  weekdays: z.array(z.string()).refine((value) => value.some((item) => item), {
-    message: "You have to select at least one day.",
-  }),
+    weekdays: z.array(z.string()).refine((value) => value.some((item) => item), {
+      message: "You have to select at least one day.",
+    }),
 
   teacher: z
     .string()

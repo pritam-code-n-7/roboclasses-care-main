@@ -34,14 +34,14 @@ export function CollapsibleDemo() {
         href="/attendance"
         className="rounded-md border flex items-center p-2 h-10 font-bold text-sm hover:underline"
       >
-        New Batch Entry
+        Create a Batch
       </Link>
       <CollapsibleContent className="space-y-2">
         <Link
-          href="#"
+          href="/teacherView"
           className="rounded-md border flex items-center p-2 h-10 font-bold text-sm hover:underline"
         >
-          Active Batches
+          Teacher View
         </Link>
         <Link
           href="#"

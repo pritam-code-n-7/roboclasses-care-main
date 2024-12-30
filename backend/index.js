@@ -163,13 +163,11 @@ app.patch("/api/appointments/:id", async (req, res) => {
 // create new batch
 app.post("/api/attendances", async (req, res) => {
   try {
-    const { teacher, date, classes, batch, score } = req.body;
+    const { teacher, batch, time } = req.body;
     const data = await Attendance.create({
       teacher,
-      date,
-      classes,
       batch,
-      score,
+      time,
     });
 
     console.log(data);
@@ -180,6 +178,41 @@ app.post("/api/attendances", async (req, res) => {
     });
   } catch (error) {
     console.error(error);
+    res.status(500).json({
+      success: false,
+      message: "Internal server error!",
+    });
+  }
+});
+
+// get batches
+app.get("/api/attendances", async (req, res) => {
+  try {
+    const data = await Attendance.find();
+    console.log(data);
+
+    return res.status(200).json(data);
+  } catch (error) {
+    console.error(error);
+
+    res.status(500).json({
+      success: false,
+      message: "Internal server error!",
+    });
+  }
+});
+
+// get a single batch
+app.get("/api/attendances/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const data = await Attendance.findById(id);
+    console.log(data);
+
+    res.status(200).json(data);
+  } catch (error) {
+    console.error(error);
+
     res.status(500).json({
       success: false,
       message: "Internal server error!",

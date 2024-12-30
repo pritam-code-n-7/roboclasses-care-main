@@ -61,7 +61,7 @@ const data = {
       
     },
     {
-      title: "Manage Attendance",
+      title: "Take Attendance",
       url: "/attendance",
       icon: Settings2,
     },
