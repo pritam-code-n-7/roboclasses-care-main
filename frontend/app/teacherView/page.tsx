@@ -8,14 +8,13 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { SidebarInset, SidebarTrigger } from "@/components/ui/sidebar";
-import { CollapsibleDemo } from "@/demo/admin-dashboard/CollapsibleDemo";
-import { TableDemoOne } from "@/demo/admin-dashboard/TableDemoOne";
-import { TableDemoThree } from "@/demo/admin-dashboard/TableDemoThree";
-import { TableDemoTwo } from "@/demo/admin-dashboard/TableDemoTwo";
 import TeacherViewTableDateWise from "@/demo/teacher-view-demo/TeacherViewTableDateWise";
 import { Separator } from "@radix-ui/react-separator";
+import { PlusCircle } from "lucide-react";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
+
 
 const Page = () => {
   const pathname = usePathname();
@@ -41,13 +40,16 @@ const Page = () => {
         </div>
       </header>
       <div className="w-[1200px] grid grid-cols-1 space-y-10 px-20 mt-10">
-        <p className="font-bold text-4xl">Manage Appointments</p>
-        <TableDemoOne />
-        <TableDemoTwo />
-      </div>
-      <div className="w-[1200px] grid grid-cols-1 space-y-10 p-20">
-        <CollapsibleDemo />
-        <TableDemoThree />
+        <div className="flex justify-between items-center">
+          <p className="text-4xl font-bold">Teachers View</p>
+          <Link href={"/attendance"}>
+            <PlusCircle
+              size={50}
+              className="text-zinc-500 hover:text-zinc-300 transition-colors duration-150 delay-75"
+            />
+            
+          </Link>
+        </div>
         <TeacherViewTableDateWise />
       </div>
     </SidebarInset>

@@ -10,6 +10,7 @@ import {
   Send,
   Settings2,
   SquareTerminal,
+  View,
 } from "lucide-react"
 
 import { NavMain } from "@/components/nav-main"
@@ -64,6 +65,11 @@ const data = {
       title: "Take Attendance",
       url: "/attendance",
       icon: Settings2,
+    },
+    {
+      title: "Teacher View",
+      url: "/teacherView",
+      icon: View,
     },
   ],
   navSecondary: [

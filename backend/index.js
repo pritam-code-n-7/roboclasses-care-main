@@ -6,6 +6,7 @@ import helmet from "helmet";
 import { dbConnect } from "./config/db.js";
 import { Appointment } from "./models/appointment.model.js";
 import { Attendance } from "./models/attendance.model.js";
+import { NewBatchEntries } from "./models/newBatchEntry.model.js";
 // import scheduleReminders from "./jobs/scheduler.js";
 
 dotenv.config();
@@ -159,12 +160,12 @@ app.patch("/api/appointments/:id", async (req, res) => {
   }
 });
 
-// for attendance module
+// for new batch entry module
 // create new batch
-app.post("/api/attendances", async (req, res) => {
+app.post("/api/newBatchEntries", async (req, res) => {
   try {
     const { teacher, batch, time } = req.body;
-    const data = await Attendance.create({
+    const data = await NewBatchEntries.create({
       teacher,
       batch,
       time,
@@ -186,9 +187,9 @@ app.post("/api/attendances", async (req, res) => {
 });
 
 // get batches
-app.get("/api/attendances", async (req, res) => {
+app.get("/api/newBatchEntries", async (req, res) => {
   try {
-    const data = await Attendance.find();
+    const data = await NewBatchEntries.find();
     console.log(data);
 
     return res.status(200).json(data);
@@ -203,13 +204,69 @@ app.get("/api/attendances", async (req, res) => {
 });
 
 // get a single batch
-app.get("/api/attendances/:id", async (req, res) => {
+app.get("/api/newBatchEntries/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    const data = await Attendance.findById(id);
+    const data = await NewBatchEntries.findById(id);
     console.log(data);
 
     res.status(200).json(data);
+  } catch (error) {
+    console.error(error);
+
+    res.status(500).json({
+      success: false,
+      message: "Internal server error!",
+    });
+  }
+});
+
+// for attendance module
+// create attendance
+app.post("/api/attendances", async (req, res) => {
+  try {
+    const { batch, date, score } = req.body;
+    const data = await Attendance.create({ batch, date, score });
+    console.log(data);
+
+    res.status(201).json({
+      success: true,
+      message: "Attendance created successfully.",
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      success: false,
+      message: "Internal server error!",
+    });
+  }
+});
+
+// get attendances
+app.get("/api/attendances", async (req, res) => {
+  try {
+    const data = await Attendance.find();
+    console.log(data);
+    res.status(200).json(data);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      success: false,
+      message: "Internal server error!",
+    });
+  }
+});
+
+// get a single attendance
+app.get("/api/attendances/:id", async (req, res) => {
+  try {
+    const { id } = req.params();
+    const data = await Attendance.findById(id);
+    console.log(data);
+    res.status(200).json({
+      success: true,
+      message: "Attendance fetched successfully.",
+    });
   } catch (error) {
     console.error(error);
 

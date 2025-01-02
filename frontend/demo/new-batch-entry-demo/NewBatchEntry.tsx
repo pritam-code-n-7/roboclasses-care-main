@@ -30,58 +30,58 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-export const days = [
+const weekdays = [
   {
-    id: "1",
-    label: "Day 1",
+    id: "sun",
+    label: "Sunday",
   },
   {
-    id: "2",
-    label: "Day 2",
+    id: "mon",
+    label: "Monday",
   },
   {
-    id: "3",
-    label: "Day 3",
+    id: "tue",
+    label: "Tuesday",
   },
   {
-    id: "4",
-    label: "Day 4",
+    id: "wed",
+    label: "Wednesday",
   },
   {
-    id: "5",
-    label: "Day 5",
+    id: "thu",
+    label: "Thursday",
   },
   {
-    id: "6",
-    label: "Day 6",
+    id: "fri",
+    label: "Friday",
   },
   {
-    id: "7",
-    label: "Day 7",
+    id: "sat",
+    label: "Saturday",
   },
 ];
 
-const dates = [
+const times = [
   {
-    id: format(new Date(), "yyyy-MM-dd")
+    id: new Date().toLocaleTimeString().substring(11, 16),
   },
   {
-    id: format(new Date(), "yyyy-MM-dd")
+    id: new Date().toLocaleTimeString().substring(11, 16),
   },
   {
-    id: format(new Date(), "yyyy-MM-dd")
+    id: new Date().toLocaleTimeString().substring(12, 18),
   },
   {
-    id: format(new Date(), "yyyy-MM-dd"),
+    id: new Date().toLocaleTimeString().substring(15, 20),
   },
   {
-    id: format(new Date(), "yyyy-MM-dd"),
+    id: new Date().toLocaleTimeString().substring(10, 23),
   },
   {
-    id: format(new Date(), "yyyy-MM-dd"),
+    id: new Date().toLocaleTimeString().substring(16, 21),
   },
   {
-    id: format(new Date(), "yyyy-MM-dd"),
+    id: new Date().toLocaleTimeString().substring(17, 24),
   },
 ];
 
@@ -91,30 +91,34 @@ const FormSchema = z.object({
     .string()
     .min(1, { message: "Batch number must contain atleast 1 character" }),
 
-  date: z.array(z.string()).refine((value) => value.some((item) => item), {
-    message: "You have to select at least one date.",
+  teacher: z
+    .string()
+    .min(2, { message: "Teacher name must contain atleast 2 character." }),
+
+  time: z.array(z.string()).refine((value) => value.some((item) => item), {
+    message: "You have to select at least one time.",
   }),
-  days: z.array(z.string()).refine((value) => value.some((item) => item), {
+
+  weekdays: z.array(z.string()).refine((value) => value.some((item) => item), {
     message: "You have to select at least one day.",
   }),
-  score: z.string().min(2,{message:"Assessment score must contain at least one digit"})
 });
 
-export function AttendanceForm() {
+export function NewBatchEntryForm() {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
+      teacher: "",
       batch: "",
-      date: ["day1", "day2", "day3", "day4", "day5", "day6", "day7"],
-      days: ["1"],
-      score: ""
+      time: ["sun", "mon", "tue", "wed", "thu", "fri", "sat"],
+      weekdays: ["mon"],
     },
   });
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     try {
       const res = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/attendances`,
+        `${process.env.NEXT_PUBLIC_API_URL}/api/newBatchEntries`,
         data
       );
       console.log(res.data);
@@ -143,7 +147,7 @@ export function AttendanceForm() {
           <TableCaption>A list of weekdays with time slot</TableCaption>
           <TableHeader>
             <TableRow>
-              {days.map((item, index) => (
+              {weekdays.map((item, index) => (
                 <TableHead className="w-[100px]" key={index}>
                   {item.label}
                 </TableHead>
@@ -152,15 +156,15 @@ export function AttendanceForm() {
           </TableHeader>
           <TableBody>
             <TableRow>
-              {dates.map((item, index) => (
+              {times.map((item, index) => (
                 <TableCell className="font-medium" key={index}>
                   <FormField
                     control={form.control}
-                    name={`date.${index}`}
+                    name={`time.${index}`}
                     render={({ field }) => (
                       <FormItem>
                         <FormControl>
-                          <Input type="date" {...field} className="bg-white" />
+                          <Input type="time" {...field} className="bg-white" />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -193,14 +197,14 @@ export function AttendanceForm() {
         />
         <FormField
           control={form.control}
-          name="score"
+          name="teacher"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="font-semibold">Assessment Score</FormLabel>
+              <FormLabel className="font-semibold">Teacher Name</FormLabel>
 
               <FormControl>
                 <Input
-                  placeholder="e.g. 94%"
+                  placeholder="e.g. Monty"
                   {...field}
                   required
                   className="bg-white"

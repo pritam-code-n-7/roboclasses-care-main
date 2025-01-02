@@ -13,20 +13,20 @@ import { EditButton } from "./EditButton";
 import useSWR from "swr";
 import axios from "axios";
 
-interface attendanceType {
+interface batchType {
   _id: string;
   teacher: string;
   batch: string;
   time: string[];
 }
 
-// const weekdays = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","saturday"]
+const weekdays = ["Sun","Mon","Tues","Wed","Thu","Fri","Sat"]
 
 const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 
 export function TableDemoThree() {
-  const { data, isLoading, isValidating, error } = useSWR<attendanceType[]>(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/attendances`,
+  const { data, isLoading, isValidating, error } = useSWR<batchType[]>(
+    `${process.env.NEXT_PUBLIC_API_URL}/api/newBatchEntries`,
     fetcher
   );
 
@@ -37,7 +37,7 @@ export function TableDemoThree() {
 
   return (
     <Table className="border border-black">
-      <TableCaption>A list of attendance</TableCaption>
+      <TableCaption>A list of batches</TableCaption>
       <TableHeader>
         <TableRow>
           <TableHead className="w-[100px]">Teacher Name</TableHead>
@@ -48,14 +48,26 @@ export function TableDemoThree() {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {data?.map((attendance: attendanceType) => (
+        {data?.map((attendance: batchType) => (
           <TableRow key={attendance._id}>
             <TableCell className="font-medium">{attendance.teacher}</TableCell>
             <TableCell>{attendance.batch}</TableCell>
             <TableCell className="text-right">
-            {attendance.time.map((item)=>item).join(', ')}
+              <TableRow>
+                <TableCell>
+                  {weekdays.map((day)=>(day)).join(' | ')}
+                </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell>
+                  {attendance.time
+                    .map((value) =>
+                      !isNaN(parseInt(value[0], 10)) ? value : "N/A"
+                    )
+                    .join(" | ")}
+                </TableCell>
+              </TableRow>
             </TableCell>
-            
             <TableCell className="text-right">
               <EditButton name="Edit" type="button" />
             </TableCell>

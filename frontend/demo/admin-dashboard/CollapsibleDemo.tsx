@@ -31,7 +31,7 @@ export function CollapsibleDemo() {
         </CollapsibleTrigger>
       </div>
       <Link
-        href="/attendance"
+        href="/newBatchEntry"
         className="rounded-md border flex items-center p-2 h-10 font-bold text-sm hover:underline"
       >
         Create a Batch
@@ -44,10 +44,10 @@ export function CollapsibleDemo() {
           Teacher View
         </Link>
         <Link
-          href="#"
+          href="/attendance"
           className="rounded-md border flex items-center p-2 h-10 font-bold text-sm hover:underline"
         >
-          Past Batches
+          Take Attendance
         </Link>
       </CollapsibleContent>
     </Collapsible>

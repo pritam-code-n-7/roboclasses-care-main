@@ -1,17 +1,17 @@
 import mongoose from "mongoose";
 
 const attendanceSchema = new mongoose.Schema({
-    teacher:{
-        type:String,
-        required:true
-    },
-    time:{
-        type:[String],
-        required:true
-    },
     batch:{
         type:String,
-        required:true
+        required:true,
+    },
+    date:{
+        type:[String],
+        required:true,
+    },
+    score:{
+        type:String,
+        required:true,
     },
    
 },{timestamps:true})
