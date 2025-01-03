@@ -6,8 +6,8 @@ const router = express.Router();
 // create attendance
 router.post("/attendances", async (req, res) => {
     try {
-      const { batch, date, score } = req.body;
-      const data = await Attendance.create({ batch, date, score });
+      const { batch, date, score, studentsPresent, totalStudent } = req.body;
+      const data = await Attendance.create({ batch, date, score, studentsPresent, totalStudent });
       console.log(data);
   
       res.status(201).json({

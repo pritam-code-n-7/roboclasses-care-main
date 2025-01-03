@@ -9,18 +9,21 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+
 import axios from "axios";
 import React from "react";
 import useSWR from "swr";
-import { days } from "../attendance-demo/AttendanceForm";
 import { usePathname } from "next/navigation";
+import {format} from "date-fns";
 import { EditButton } from "../admin-dashboard/EditButton";
 
 interface attendanceType {
   _id: string;
   batch: string;
-  date: string[];
+  date: Date;
   score: string;
+  studentsPresent:number;
+  totalStudent:number;
 }
 
 const fetcher = (url: string) => axios.get(url).then((res) => res.data);
@@ -45,7 +48,10 @@ const TeacherViewTableDateWise = () => {
         <TableRow>
           <TableHead>Batch No.</TableHead>
           <TableHead>Date</TableHead>
+          <TableHead>Students Present</TableHead>
+          <TableHead>Total Student</TableHead>
           <TableHead>Assessment Score</TableHead>
+
 
           {pathname === "/adminDashboard" ? (
             <>
@@ -61,19 +67,11 @@ const TeacherViewTableDateWise = () => {
         {data?.map((item) => (
           <TableRow key={item._id}>
             <TableCell>{item.batch}</TableCell>
-            <TableRow>
-              <TableCell>{days.map((day) => day.label).join(" | ")}</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell>
-                {item.date
-                  .map((value) =>
-                    !isNaN(parseInt(value[0], 10)) ? value : "N/A"
-                  )
-                  .join(" | ")}
-              </TableCell>
-            </TableRow>
+           <TableCell>{format(item.date,'MMM dd, yyyy')}</TableCell>
+            <TableCell>{item.studentsPresent}</TableCell>
+            <TableCell>{item.totalStudent}</TableCell>
             <TableCell>{item.score}</TableCell>
+
             {pathname === "/adminDashboard" ? (
               <>
                 <TableCell>
@@ -91,7 +89,7 @@ const TeacherViewTableDateWise = () => {
       </TableBody>
       <TableFooter>
         <TableRow>
-          <TableCell colSpan={pathname === "/adminDashboard" ? 5 : 3}>
+          <TableCell colSpan={pathname === "/adminDashboard" ? 7 : 5}>
             Total
           </TableCell>
           <TableCell className="text-right">{data?.length}</TableCell>

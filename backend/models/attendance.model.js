@@ -6,13 +6,21 @@ const attendanceSchema = new mongoose.Schema({
         required:true,
     },
     date:{
-        type:[String],
+        type:Date,
         required:true,
     },
     score:{
         type:String,
         required:true,
     },
+    studentsPresent:{
+        type:Number,
+        required:true,
+    },
+    totalStudent:{
+        type:Number,
+        required:true,
+    }
    
 },{timestamps:true})
 

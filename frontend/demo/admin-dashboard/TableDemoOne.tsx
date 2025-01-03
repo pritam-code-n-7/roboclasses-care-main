@@ -86,7 +86,7 @@ export function TableDemoOne() {
             <TableCell className="font-medium">{appointment.teacher}</TableCell>
 
             <TableCell>
-              {format(appointment.date ?? "", "MMM dd, yyyy")}
+              {format(appointment.date, "MMM dd, yyyy")}
             </TableCell>
             <TableCell className="text-right">{appointment.time}</TableCell>
             <TableCell className="text-right">

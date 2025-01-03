@@ -2,11 +2,11 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { format } from "date-fns";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { toast } from "@/hooks/use-toast";
 import {
   Form,
   FormControl,
@@ -16,88 +16,29 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 
-import { toast } from "@/hooks/use-toast";
-import { Input } from "@/components/ui/input";
+import { format } from "date-fns";
 import axios from "axios";
 
-import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
 
-export const days = [
-  {
-    id: "1",
-    label: "Day 1",
-  },
-  {
-    id: "2",
-    label: "Day 2",
-  },
-  {
-    id: "3",
-    label: "Day 3",
-  },
-  {
-    id: "4",
-    label: "Day 4",
-  },
-  {
-    id: "5",
-    label: "Day 5",
-  },
-  {
-    id: "6",
-    label: "Day 6",
-  },
-  {
-    id: "7",
-    label: "Day 7",
-  },
-];
-
-const dates = [
-  {
-    id: format(new Date(), "yyyy-MM-dd")
-  },
-  {
-    id: format(new Date(), "yyyy-MM-dd")
-  },
-  {
-    id: format(new Date(), "yyyy-MM-dd")
-  },
-  {
-    id: format(new Date(), "yyyy-MM-dd"),
-  },
-  {
-    id: format(new Date(), "yyyy-MM-dd"),
-  },
-  {
-    id: format(new Date(), "yyyy-MM-dd"),
-  },
-  {
-    id: format(new Date(), "yyyy-MM-dd"),
-  },
-];
 
 const FormSchema = z.object({
-
   batch: z
     .string()
     .min(1, { message: "Batch number must contain atleast 1 character" }),
 
-  date: z.array(z.string()).refine((value) => value.some((item) => item), {
-    message: "You have to select at least one date.",
-  }),
-  days: z.array(z.string()).refine((value) => value.some((item) => item), {
-    message: "You have to select at least one day.",
-  }),
-  score: z.string().min(2,{message:"Assessment score must contain at least one digit"})
+  date: z.string({ required_error: "this field is required." }),
+
+  score: z
+    .string()
+    .min(2, { message: "Assessment score must contain at least one digit" }),
+
+  studentsPresent: z
+    .string()
+    .min(1, { message: "This field must contains atleast 1 digit." }),
+
+  totalStudent: z
+    .string()
+    .min(1, { message: "This field must contains atleast 1 digit." }),
 });
 
 export function AttendanceForm() {
@@ -105,9 +46,10 @@ export function AttendanceForm() {
     resolver: zodResolver(FormSchema),
     defaultValues: {
       batch: "",
-      date: ["day1", "day2", "day3", "day4", "day5", "day6", "day7"],
-      days: ["1"],
-      score: ""
+      date: format(new Date(), "yyyy-mm-dd"),
+      score: "",
+      studentsPresent: "",
+      totalStudent: "",
     },
   });
 
@@ -139,38 +81,18 @@ export function AttendanceForm() {
         onSubmit={form.handleSubmit(onSubmit)}
         className="flex flex-col gap-4"
       >
-        <Table>
-          <TableCaption>A list of weekdays with time slot</TableCaption>
-          <TableHeader>
-            <TableRow>
-              {days.map((item, index) => (
-                <TableHead className="w-[100px]" key={index}>
-                  {item.label}
-                </TableHead>
-              ))}
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            <TableRow>
-              {dates.map((item, index) => (
-                <TableCell className="font-medium" key={index}>
-                  <FormField
-                    control={form.control}
-                    name={`date.${index}`}
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormControl>
-                          <Input type="date" {...field} className="bg-white" />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </TableCell>
-              ))}
-            </TableRow>
-          </TableBody>
-        </Table>
+        <FormField
+          control={form.control}
+          name="date"
+          render={({ field }) => (
+            <FormItem>
+              <FormControl>
+                <Input type="date" {...field} className="bg-white" />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
         <FormField
           control={form.control}
@@ -182,6 +104,44 @@ export function AttendanceForm() {
               <FormControl>
                 <Input
                   placeholder="e.g. Python B12 L1"
+                  {...field}
+                  required
+                  className="bg-white"
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="studentsPresent"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className="font-semibold">Students Present</FormLabel>
+
+              <FormControl>
+                <Input
+                  placeholder="give attendance"
+                  {...field}
+                  required
+                  className="bg-white"
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="totalStudent"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className="font-semibold">Total Students</FormLabel>
+
+              <FormControl>
+                <Input
+                  placeholder="e.g. 50"
                   {...field}
                   required
                   className="bg-white"
