@@ -32,7 +32,7 @@ const Page = () => {
               <BreadcrumbSeparator className="hidden md:block" />
               <BreadcrumbItem>
                 <BreadcrumbPage>
-                  {pathname == "/adminDashboard" && "Admin Dashboard"}
+                  {pathname == "/teacherView" && "Teacher View"}
                 </BreadcrumbPage>
               </BreadcrumbItem>
             </BreadcrumbList>

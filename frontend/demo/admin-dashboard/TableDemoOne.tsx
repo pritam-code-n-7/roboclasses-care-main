@@ -38,7 +38,7 @@ const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 
 export function TableDemoOne() {
   const { data, error, isLoading, mutate } = useSWR<appointmentTypes[]>(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/appointments`,
+    `${process.env.NEXT_PUBLIC_API_URL}/appointments`,
     fetcher
   );
 
@@ -46,7 +46,7 @@ export function TableDemoOne() {
   const handleDelete = async (appointmentId: string) => {
     try {
       const res = await axios.delete(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/appointments/${appointmentId}`
+        `${process.env.NEXT_PUBLIC_API_URL}/appointments/${appointmentId}`
       );
       console.log(res.data);
 

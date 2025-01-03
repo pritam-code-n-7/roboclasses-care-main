@@ -97,10 +97,6 @@ const times = [
 ];
 
 const FormSchema = z.object({
-  date: z.array(z.string()).refine((value) => value.some((item) => item), {
-    message: "You have to select at least one date.",
-  }),
-
   time: z.array(z.string()).refine((value) => value.some((item) => item), {
     message: "You have to select at least one time.",
   }),
@@ -108,11 +104,6 @@ const FormSchema = z.object({
   items: z.array(z.string()).refine((value) => value.some((item) => item), {
     message: "You have to select at least one item.",
   }),
-
-    weekdays: z.array(z.string()).refine((value) => value.some((item) => item), {
-      message: "You have to select at least one day.",
-    }),
-
   teacher: z
     .string()
     .min(2, { message: "Teacher name must contain atleast 2 character." }),
@@ -128,16 +119,14 @@ export function MultiDatePickerForm() {
     defaultValues: {
       teacher: "",
       batch: "Prime B21",
-      date: undefined,
       time: ["sun", "mon", "tue", "wed", "thu", "fri", "sat"],
       items: ["1hour"],
-      weekdays: ["mon"],
     },
   });
 
   async function onSubmit(data) {
     try {
-      await fetch("/api/scheduler", {
+      await fetch(`${process.env.NEXT_PUBLIC_API_URL}/appointments/normalClass`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
@@ -146,7 +135,6 @@ export function MultiDatePickerForm() {
     } catch (error) {
       console.error("Error booking appointment", error);
     }
-
     toast({
       title: "You submitted the following values:",
       description: (

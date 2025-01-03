@@ -114,7 +114,7 @@ export function AttendanceForm() {
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     try {
       const res = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/attendances`,
+        `${process.env.NEXT_PUBLIC_API_URL}/attendances`,
         data
       );
       console.log(res.data);

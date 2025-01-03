@@ -26,7 +26,7 @@ const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 
 export function TableDemoThree() {
   const { data, isLoading, isValidating, error } = useSWR<batchType[]>(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/newBatchEntries`,
+    `${process.env.NEXT_PUBLIC_API_URL}/newBatchEntries`,
     fetcher
   );
 

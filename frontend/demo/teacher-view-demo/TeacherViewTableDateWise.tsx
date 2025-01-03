@@ -28,7 +28,7 @@ const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 const TeacherViewTableDateWise = () => {
   const pathname = usePathname();
   const { data, isLoading, isValidating, error } = useSWR<attendanceType[]>(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/attendances`,
+    `${process.env.NEXT_PUBLIC_API_URL}/attendances`,
     fetcher
   );
 

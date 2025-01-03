@@ -74,7 +74,7 @@ export function DatePickerForm() {
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     try {
       const res = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/appointments`,
+        `${process.env.NEXT_PUBLIC_API_URL}/appointments`,
         data
       );
       console.log(res.data);
