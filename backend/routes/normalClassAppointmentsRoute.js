@@ -23,4 +23,38 @@ router.post("/appointments/normalClass", async (req, res) => {
   }
 });
 
+//get appointments
+router.get('/appointments/normalClass',async(req,res)=>{
+  try {
+    const data = await NormalClass.find();
+    console.log(data);
+    res.status(200).json(data)
+    
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      success:false,
+      message:"Internal server error!"
+    }) 
+  }
+})
+
+//get a single appointment
+router.get('/appointments/normalClass/:id',async(req,res)=>{
+  try {
+    const {id} = req.params;
+    const data = await NormalClass.findById(id)
+    console.log(data);
+    res.status(200).json(data)
+   
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      success:false,
+      message:"Internal server error!"
+    }) 
+    
+  }
+})
+
 export default router;

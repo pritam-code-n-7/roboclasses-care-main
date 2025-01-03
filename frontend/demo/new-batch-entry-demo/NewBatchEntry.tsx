@@ -98,10 +98,6 @@ const FormSchema = z.object({
   time: z.array(z.string()).refine((value) => value.some((item) => item), {
     message: "You have to select at least one time.",
   }),
-
-  weekdays: z.array(z.string()).refine((value) => value.some((item) => item), {
-    message: "You have to select at least one day.",
-  }),
 });
 
 export function NewBatchEntryForm() {
@@ -111,7 +107,6 @@ export function NewBatchEntryForm() {
       teacher: "",
       batch: "",
       time: ["sun", "mon", "tue", "wed", "thu", "fri", "sat"],
-      weekdays: ["mon"],
     },
   });
 

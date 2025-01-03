@@ -29,6 +29,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import axios from "axios";
 
 const items = [
   {
@@ -126,11 +127,9 @@ export function MultiDatePickerForm() {
 
   async function onSubmit(data) {
     try {
-      await fetch(`${process.env.NEXT_PUBLIC_API_URL}/appointments/normalClass`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      });
+      const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/appointments/normalClass`,data)
+      console.log(res.data);
+      
       form.reset();
     } catch (error) {
       console.error("Error booking appointment", error);

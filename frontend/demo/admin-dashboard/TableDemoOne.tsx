@@ -38,7 +38,7 @@ const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 
 export function TableDemoOne() {
   const { data, error, isLoading, mutate } = useSWR<appointmentTypes[]>(
-    `${process.env.NEXT_PUBLIC_API_URL}/appointments`,
+    `${process.env.NEXT_PUBLIC_API_URL}/appointments/demoClass`,
     fetcher
   );
 
