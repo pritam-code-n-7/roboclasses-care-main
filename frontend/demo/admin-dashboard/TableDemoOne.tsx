@@ -46,7 +46,7 @@ export function TableDemoOne() {
   const handleDelete = async (appointmentId: string) => {
     try {
       const res = await axios.delete(
-        `${process.env.NEXT_PUBLIC_API_URL}/appointments/${appointmentId}`
+        `${process.env.NEXT_PUBLIC_API_URL}/appointments/demoClass/${appointmentId}`
       );
       console.log(res.data);
 

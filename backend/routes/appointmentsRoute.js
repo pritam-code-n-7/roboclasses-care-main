@@ -51,7 +51,7 @@ router.get("/appointments/demoClass", async (req, res) => {
     const data = await Appointment.find();
     // console.log(data);
 
-    res.status(200).json(data);
+    return res.status(200).json(data);
   } catch (error) {
     return res.status(500).json({
       success: false,
@@ -131,13 +131,13 @@ router.patch("/appointments/demoClass/:id", async (req, res) => {
     );
     console.log(data);
 
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
       message: "Your appointment status updated successfully.",
     });
   } catch (error) {
     console.error(error);
-    res.status(500).json({
+   return res.status(500).json({
       success: false,
       message: "Internal server error!",
     });

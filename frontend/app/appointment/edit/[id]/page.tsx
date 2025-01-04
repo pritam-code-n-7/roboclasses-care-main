@@ -28,7 +28,7 @@ const Page = ({ params }: { params: { id: string } }) => {
     const handleFetchOne = async () => {
       try {
         const res = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_URL}/appointments/${id}`
+          `${process.env.NEXT_PUBLIC_API_URL}/appointments/demoClass/${id}`
         );
 
         setDate(res.data.date);
@@ -48,7 +48,7 @@ const Page = ({ params }: { params: { id: string } }) => {
   const handleUpdate = async () => {
     try {
       const res = await axios.put(
-        `${process.env.NEXT_PUBLIC_API_URL}/appointments/${id}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/appointments/demoClass/${id}`,
         { date, time }
       );
       console.log(res.data);
@@ -68,7 +68,7 @@ const Page = ({ params }: { params: { id: string } }) => {
   const handleCancelAppointment = async () => {
     try {
       const res = await axios.patch(
-        `${process.env.NEXT_PUBLIC_API_URL}/appointments/${id}`
+        `${process.env.NEXT_PUBLIC_API_URL}/appointments/demoClass/${id}`
       );
       console.log(res.data);
       toast({

@@ -10,13 +10,13 @@ router.post("/attendances", async (req, res) => {
       const data = await Attendance.create({ batch, date, score, studentsPresent, totalStudent });
       console.log(data);
   
-      res.status(201).json({
+      return res.status(201).json({
         success: true,
         message: "Attendance created successfully.",
       });
     } catch (error) {
       console.error(error);
-      res.status(500).json({
+      return res.status(500).json({
         success: false,
         message: "Internal server error!",
       });
@@ -28,10 +28,10 @@ router.post("/attendances", async (req, res) => {
     try {
       const data = await Attendance.find();
       console.log(data);
-      res.status(200).json(data);
+     return res.status(200).json(data);
     } catch (error) {
       console.error(error);
-      res.status(500).json({
+    return  res.status(500).json({
         success: false,
         message: "Internal server error!",
       });
@@ -44,18 +44,87 @@ router.post("/attendances", async (req, res) => {
       const { id } = req.params();
       const data = await Attendance.findById(id);
       console.log(data);
-      res.status(200).json({
+      return res.status(200).json({
         success: true,
         message: "Attendance fetched successfully.",
       });
     } catch (error) {
       console.error(error);
   
-      res.status(500).json({
+      return res.status(500).json({
         success: false,
         message: "Internal server error!",
       });
     }
   });
+
+  // update an attendance
+router.put("/attendances/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { batch, date, score, studentsPresent, totalStudent } = req.body;
+    const data = await Attendance.findByIdAndUpdate(
+      id,
+      { batch, date, score, studentsPresent, totalStudent },
+      { new: true }
+    );
+    console.log(data);
+
+    return res.status(200).json({
+      success: true,
+      message: "Attendance successfully updated",
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error!",
+    });
+  }
+});
+
+// partially update an appointment
+router.patch("/attendances/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const data = await Attendance.findByIdAndUpdate(
+      id,
+      { status: true },
+      { new: true }
+    );
+    console.log(data);
+
+    return res.status(200).json({
+      success: true,
+      message: "Attendance partially updated.",
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error!",
+    });
+  }
+});
+
+// delete an appointment
+router.delete("/attendances/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const data = await Attendance.findByIdAndDelete(id);
+    console.log(data);
+
+    return res.status(200).json({
+      success: true,
+      message: "Attendance successfully deleted.",
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error!",
+    });
+  }
+});
 
   export default router;

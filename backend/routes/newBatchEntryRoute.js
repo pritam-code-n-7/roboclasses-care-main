@@ -64,5 +64,74 @@ router.get("/newBatchEntries/:id", async (req, res) => {
   }
 });
 
+  // update a batch
+router.put("/newBatchEntries/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { teacher, batch, time } = req.body;
+    const data = await NewBatchEntries.findByIdAndUpdate(
+      id,
+      { teacher, batch, time },
+      { new: true }
+    );
+    console.log(data);
+
+    return res.status(200).json({
+      success: true,
+      message: "New batch successfully updated.",
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error!",
+    });
+  }
+});
+
+// partially update a batch
+router.patch("/newBatchEntries/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const data = await NewBatchEntries.findByIdAndUpdate(
+      id,
+      { status: true },
+      { new: true }
+    );
+    console.log(data);
+
+    return res.status(200).json({
+      success: true,
+      message: "New batch partially updated.",
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error!",
+    });
+  }
+});
+
+// delete a batch
+router.delete("/newBatchEntries/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const data = await NewBatchEntries.findByIdAndDelete(id);
+    console.log(data);
+
+    return res.status(200).json({
+      success: true,
+      message: "New batch successfully deleted.",
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error!",
+    });
+  }
+});
+
 
 export default router;

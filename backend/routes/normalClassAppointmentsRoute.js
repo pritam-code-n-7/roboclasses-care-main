@@ -10,13 +10,13 @@ router.post("/appointments/normalClass", async (req, res) => {
     const data = await NormalClass.create({ teacher, batch, time, items });
 
     console.log(data);
-    res.status(201).json({
+    return res.status(201).json({
       success: true,
       message: "Appointment created successfully.",
     });
   } catch (error) {
     console.error(error);
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
       message: "Internal server error!",
     });
@@ -24,37 +24,103 @@ router.post("/appointments/normalClass", async (req, res) => {
 });
 
 //get appointments
-router.get('/appointments/normalClass',async(req,res)=>{
+router.get("/appointments/normalClass", async (req, res) => {
   try {
     const data = await NormalClass.find();
     console.log(data);
-    res.status(200).json(data)
-    
+    return res.status(200).json(data);
   } catch (error) {
     console.error(error);
-    res.status(500).json({
-      success:false,
-      message:"Internal server error!"
-    }) 
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error!",
+    });
   }
-})
+});
 
 //get a single appointment
-router.get('/appointments/normalClass/:id',async(req,res)=>{
+router.get("/appointments/normalClass/:id", async (req, res) => {
   try {
-    const {id} = req.params;
-    const data = await NormalClass.findById(id)
+    const { id } = req.params;
+    const data = await NormalClass.findById(id);
     console.log(data);
-    res.status(200).json(data)
-   
+    return res.status(200).json(data);
   } catch (error) {
     console.error(error);
-    res.status(500).json({
-      success:false,
-      message:"Internal server error!"
-    }) 
-    
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error!",
+    });
   }
-})
+});
+
+// update an appointment
+router.put("/appointments/normalClass/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { teacher, batch, time, items } = req.body;
+    const data = await NormalClass.findByIdAndUpdate(
+      id,
+      { teacher, batch, time, items },
+      { new: true }
+    );
+    console.log(data);
+
+    return res.status(200).json({
+      success: true,
+      message: "Appointment successfully updated",
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error!",
+    });
+  }
+});
+
+// partially update an appointment
+router.patch("/appointments/normalClass/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const data = await NormalClass.findByIdAndUpdate(
+      id,
+      { status: true },
+      { new: true }
+    );
+    console.log(data);
+
+    return res.status(200).json({
+      success: true,
+      message: "Appointment partially updated.",
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error!",
+    });
+  }
+});
+
+// delete an appointment
+router.delete("/appointments/normalClass/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const data = await NormalClass.findByIdAndDelete(id);
+    console.log(data);
+
+    return res.status(200).json({
+      success: true,
+      message: "Appointment successfully deleted.",
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error!",
+    });
+  }
+});
 
 export default router;
