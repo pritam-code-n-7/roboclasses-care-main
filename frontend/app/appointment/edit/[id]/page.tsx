@@ -1,9 +1,10 @@
 "use client";
-import EditAppointmentForm from "@/demo/reschedule-demo/EditAppointmentForm";
 import React, { useEffect, useState } from "react";
-
 import axios from "axios";
+import Image from "next/image";
+
 import { toast } from "@/hooks/use-toast";
+import EditAppointmentForm from "@/demo/reschedule-demo/EditAppointmentForm";
 import { SidebarInset, SidebarTrigger } from "@/components/ui/sidebar";
 import { Separator } from "@radix-ui/react-separator";
 import {
@@ -54,10 +55,12 @@ const Page = ({ params }: { params: { id: string } }) => {
       console.log(res.data);
 
       toast({
-        title: "Your appointment is now updated successfully.",
-        description: (
-          <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4"></pre>
-        ),
+        title: "Congratulations!👋🏼",
+      description: (
+        <div className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+          <p className="text-white">Your appointment is now updated successfully.✅</p>
+        </div>
+      ),
       });
     } catch (error) {
       console.log("Unable to update" + error);
@@ -72,10 +75,12 @@ const Page = ({ params }: { params: { id: string } }) => {
       );
       console.log(res.data);
       toast({
-        title: "Your appointment got cancelled!",
-        description: (
-          <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4"></pre>
-        ),
+        title: "Congratulations!👋🏼",
+      description: (
+        <div className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+          <p className="text-white">Your appointment got cancelled.✅</p>
+        </div>
+      ),
       });
     } catch (error) {
       console.log("Unable to delete" + error);
@@ -110,16 +115,25 @@ const Page = ({ params }: { params: { id: string } }) => {
           </Breadcrumb>
         </div>
       </header>
-
-      <div className="w-[700px] ">
-        <EditAppointmentForm
-          date={date}
-          time={time}
-          handleDateChange={(e) => setDate(new Date(e.target.value))}
-          handleTimeChange={(e) => setTime(e.target.value)}
-          handleSubmit={handleUpdate}
-          handleDelete={handleCancelAppointment}
+      <div className="grid grid-cols-2">
+        <Image
+          width={1200}
+          height={1200}
+          src={"/assests/images/spikeprime.webp"}
+          alt="wallpaper"
+          className="min-h-screen object-cover"
         />
+        <div className="w-[700px] flex flex-col justify-center p-20 gap-5">
+          <p className="text-4xl font-bold">Edit your Appointment</p>
+          <EditAppointmentForm
+            date={date}
+            time={time}
+            handleDateChange={(e: { target: { value: string | number | Date; }; }) => setDate(new Date(e.target.value))}
+            handleTimeChange={(e: { target: { value: React.SetStateAction<string>; }; }) => setTime(e.target.value)}
+            handleSubmit={handleUpdate}
+            handleDelete={handleCancelAppointment}
+          />
+        </div>
       </div>
     </SidebarInset>
   );

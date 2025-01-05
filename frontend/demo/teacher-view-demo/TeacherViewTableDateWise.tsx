@@ -16,15 +16,9 @@ import useSWR from "swr";
 import { usePathname } from "next/navigation";
 import {format} from "date-fns";
 import { EditButton } from "../admin-dashboard/EditButton";
+import { attendanceType } from "@/types/Types";
 
-interface attendanceType {
-  _id: string;
-  batch: string;
-  date: Date;
-  score: string;
-  studentsPresent:number;
-  totalStudent:number;
-}
+
 
 const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 

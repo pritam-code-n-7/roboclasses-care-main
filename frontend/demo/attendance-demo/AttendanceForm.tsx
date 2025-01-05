@@ -66,11 +66,11 @@ export function AttendanceForm() {
     }
 
     toast({
-      title: "You submitted the following values:",
+      title: "Congratulations!👋🏼",
       description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
+        <div className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+          <p className="text-white">The attendance has been submitted successfully.✅</p>
+        </div>
       ),
     });
   }

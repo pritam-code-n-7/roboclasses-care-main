@@ -12,13 +12,9 @@ import { EditButton } from "./EditButton";
 
 import useSWR from "swr";
 import axios from "axios";
+import { batchType } from "@/types/Types";
 
-interface batchType {
-  _id: string;
-  teacher: string;
-  batch: string;
-  time: string[];
-}
+
 
 const weekdays = ["Sun","Mon","Tues","Wed","Thu","Fri","Sat"]
 

@@ -9,16 +9,12 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { attendanceType } from "@/types/Types";
 import axios from "axios";
 import React from "react";
 import useSWR from "swr";
 
-interface attendanceType {
-  _id: string;
-  batch: string;
-  date: string[];
-  score: string;
-}
+
 
 const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 

@@ -7,12 +7,12 @@ import { format } from "date-fns";
 
 const EditAppointmentForm = ({ date, time, handleDateChange, handleTimeChange, handleSubmit, handleDelete }: appointmentTypes) => {
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-2 p-20">
+    <form onSubmit={handleSubmit} className="flex flex-col gap-2 ">
       <Input required type="date" value={format(date, "yyyy-MM-dd")} onChange={handleDateChange}/>
       <Input required type="time" value={time} onChange={handleTimeChange}/>
 
       <Button type="submit" >Reschedule</Button>
-      <Button type="button" onClick={handleDelete}>Cancel Appointment</Button>
+      <Button type="button" onClick={handleDelete} variant={"destructive"}>Cancel Appointment</Button>
 
     </form>
   );

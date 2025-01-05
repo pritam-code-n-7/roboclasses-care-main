@@ -135,11 +135,11 @@ export function MultiDatePickerForm() {
       console.error("Error booking appointment", error);
     }
     toast({
-      title: "You submitted the following values:",
+      title: "Congratulations!👋🏼",
       description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
+        <div className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+          <p className="text-white">Your appointment for normal class has been submitted successfully.✅</p>
+        </div>
       ),
     });
   }

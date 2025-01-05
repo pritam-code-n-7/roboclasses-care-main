@@ -15,24 +15,8 @@ import { format } from "date-fns";
 import useSWR from "swr";
 import axios from "axios";
 import Link from "next/link";
+import { appointmentTypes } from "@/types/Types";
 
-export interface appointmentTypes {
-  _id?: string;
-  userName?: string;
-  date: Date;
-  time: string;
-  course?: string;
-  teacher?: string;
-  status?: boolean;
-  handleDateChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  handleTimeChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  handleSubmit?: (event: React.FormEvent<HTMLFormElement>) => void;
-  handleDelete?: () => void;
-}
-
-export interface deleteType {
-  handleDelete: () => void;
-}
 
 const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 

@@ -1,12 +1,7 @@
 import { Button } from "@/components/ui/button";
+import { btnType } from "@/types/Types";
 
-interface btnType {
-  name: string;
-  type: "submit" | "button" | "reset";
-  onClick?: () => void;
-  varient?: "default" | "destructive" | "outline" | "secondary" | "ghost" | "link";
-  className?:string;
-}
+
 
 export function EditButton({ name, type, onClick, varient, className }: btnType) {
   return (

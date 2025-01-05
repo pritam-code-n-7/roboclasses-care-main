@@ -16,14 +16,14 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-
 import { toast } from "@/hooks/use-toast";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
-import axios from "axios";
 
+import axios from "axios";
 import PhoneInput from "react-phone-input-2";
 
+// for mapping checkbox value and label
 const items = [
   {
     id: "24hour",
@@ -33,28 +33,21 @@ const items = [
     id: "1hour",
     label: "1 Hour",
   },
-] as const;
+];
 
-const FormSchema = z.object({
-  date: z.string({ required_error: "A date is required." }),
+const FormSchema = z.object({date: z.string({ required_error: "A date is required." }),
 
-  userName: z
-    .string()
-    .min(2, { message: "name must contain atleast 2 character." }),
+  userName: z.string({ required_error: "A date is required." }).min(2, { message: "name must contain atleast 2 character." }),
 
   destination: z.string().min(12, { message: "mobile is incorrect." }),
-  course: z
-    .string()
-    .min(1, { message: "course must contain atleast 2 chracter" }),
-  teacher: z
-    .string()
-    .min(2, { message: "Teacher name must contain atleast 2 character." }),
+
+  course: z.string({ required_error: "A date is required." }).min(1, { message: "course must contain atleast 2 chracter" }),
+
+  teacher: z.string({ required_error: "A date is required." }).min(2, { message: "Teacher name must contain atleast 2 character." }),
 
   time: z.string({ required_error: "Time slot is required." }),
 
-  items: z.array(z.string()).refine((value) => value.some((item) => item), {
-    message: "You have to select at least one item.",
-  }),
+  items: z.array(z.string()).refine((value) => value.some((item) => item), {message: "You have to select at least one item.",}),
 });
 
 export function DatePickerForm() {
@@ -67,28 +60,24 @@ export function DatePickerForm() {
       teacher: "",
       date: format(new Date(), "yyyy-MM-dd"),
       time: new Date().toLocaleTimeString().substring(11, 16),
-      items: ["24hour", "1hour"],
+      items: ["1hour"],
     },
   });
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     try {
-      const res = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/appointments/demoClass`,
-        data
-      );
+      const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/appointments/demoClass`,data);
       console.log(res.data);
       form.reset();
     } catch (error) {
       console.error("Error booking appointment", error);
     }
-
     toast({
-      title: "You submitted the following values:",
+      title: "Congratulations!👋🏼",
       description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
+        <div className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+          <p className="text-white">Your appointment has been submitted successfully.✅</p>
+        </div>
       ),
     });
   }
@@ -117,24 +106,6 @@ export function DatePickerForm() {
             </FormItem>
           )}
         />
-        {/* <FormField
-          control={form.control}
-          name="destination"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className="font-semibold">Contact Number</FormLabel>
-
-              <FormControl>
-                <Input
-                  placeholder="Parent's Mobile/WhatsApp number"
-                  {...field}
-                  className="bg-white"
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        /> */}
         <FormField
           control={form.control}
           name="destination"
@@ -203,7 +174,7 @@ export function DatePickerForm() {
                 <Input type="date" {...field} required className="bg-white" />
               </FormControl>
               <FormDescription>
-                Book an appointment for demo class
+                Book an appointment for demo class!
               </FormDescription>
               <FormMessage />
             </FormItem>

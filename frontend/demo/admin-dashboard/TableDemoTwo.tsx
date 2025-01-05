@@ -11,14 +11,9 @@ import {
 import { EditButton } from "./EditButton";
 import axios from "axios";
 import useSWR from "swr";
+import { normalClassType } from "@/types/Types";
 
-interface normalClassType{
-  _id:string;
-  time:string[];
-  items:string[];
-  teacher:string;
-  batch:string;
-}
+
 
 const fetcher = (url:string)=>axios.get(url).then(res=>res.data)
 
