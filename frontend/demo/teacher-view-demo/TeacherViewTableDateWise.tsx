@@ -85,7 +85,7 @@ const TeacherViewTableDateWise = () => {
                   </Link>
                 </TableCell>
                 <TableCell>
-                  <EditButton name="Delete" type="button" onClick={()=>handleDelete(attendance._id)}/>
+                  <EditButton name="Delete" type="button" varient="destructive" onClick={()=>handleDelete(attendance._id)}/>
                 </TableCell>
               </>
             ) : (

@@ -81,7 +81,7 @@ export function TableBatchEntries() {
               <EditButton name="Edit" type="button" />
             </TableCell>
             <TableCell className="text-right">
-              <EditButton name="Delete" type="button" onClick={()=>handleDelete(batch._id)}/>
+              <EditButton name="Delete" type="button" varient="destructive" onClick={()=>handleDelete(batch._id)}/>
             </TableCell>
           </TableRow>
         ))}

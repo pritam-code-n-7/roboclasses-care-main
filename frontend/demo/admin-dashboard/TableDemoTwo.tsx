@@ -81,6 +81,7 @@ export function TableNormalClass() {
               <EditButton
                 name="Delete"
                 type="button"
+                varient="destructive"
                 onClick={() => handleDelete(appointment._id)}
               />
             </TableCell>
