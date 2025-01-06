@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
@@ -18,6 +19,7 @@ import {
 
 import { format } from "date-fns";
 import axios from "axios";
+import { useParams } from "next/navigation";
 
 const FormSchema = z.object({
   batch: z
@@ -33,43 +35,40 @@ const FormSchema = z.object({
   studentsPresent: z
     .string()
     .min(1, { message: "This field must contains atleast 1 digit." }),
-
-  totalStudent: z
-    .string()
-    .min(1, { message: "This field must contains atleast 1 digit." }),
 });
 
-export function AttendanceForm() {
+export function EditAttendanceForm() {
+  const { id } = useParams();
+
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
       batch: "",
-      date: format(new Date(), "yyyy-mm-dd"),
+      date: format(new Date(), "yyyy-MM-dd"),
       score: "",
       studentsPresent: "",
-      totalStudent: "",
     },
   });
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     try {
-      const res = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/attendances`,
+      const res = await axios.put(
+        `${process.env.NEXT_PUBLIC_API_URL}/attendances/${id}`,
         data
       );
       console.log(res.data);
-      form.reset();
       toast({
         title: "Congratulations!",
-        description: "The attendance has been submitted successfully.✅",
+        description: "The attendance has been updated successfully.✅",
         variant: "default",
       });
+      form.reset();
     } catch (error) {
       console.error(error);
       toast({
         title: "Hi, ",
-        description: "Unable to submit attedance!",
-        variant: "default",
+        description: "unable to update attendance!",
+        variant: "destructive",
       });
     }
   }
@@ -135,25 +134,7 @@ export function AttendanceForm() {
             </FormItem>
           )}
         />
-        <FormField
-          control={form.control}
-          name="totalStudent"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className="font-semibold">Total Students</FormLabel>
 
-              <FormControl>
-                <Input
-                  placeholder="e.g. 50"
-                  {...field}
-                  required
-                  className="bg-white"
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
         <FormField
           control={form.control}
           name="score"

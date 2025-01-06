@@ -11,7 +11,6 @@ import {
 } from "@/components/ui/collapsible";
 import Link from "next/link";
 
-
 export function CollapsibleDemo() {
   const [isOpen, setIsOpen] = React.useState(false);
 
@@ -21,8 +20,8 @@ export function CollapsibleDemo() {
       onOpenChange={setIsOpen}
       className="w-[350px] space-y-2"
     >
-      <div className="flex items-center justify-between space-x-4 px-4">
-        <h4 className="text-4xl font-semibold">Manage Attendance</h4>
+      <div className="flex items-center justify-between space-x-4 px-4 ">
+        <h4 className="text-4xl font-semibold">Manage Attendances</h4>
         <CollapsibleTrigger asChild>
           <Button variant="ghost" size="sm" className="w-9 p-0">
             <ChevronsUpDown className="h-4 w-4" />

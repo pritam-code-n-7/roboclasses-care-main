@@ -127,21 +127,26 @@ export function MultiDatePickerForm() {
 
   async function onSubmit(data) {
     try {
-      const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/appointments/normalClass`,data)
+      const res = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/appointments/normalClass`,
+        data
+      );
       console.log(res.data);
-      
       form.reset();
+      toast({
+        title: "Congratulations!",
+        description:
+          "Your appointment for normal class has been submitted successfully.✅",
+        variant: "default",
+      });
     } catch (error) {
       console.error("Error booking appointment", error);
+      toast({
+        title: "Hi, ",
+        description: "unable to submit Normal Class appointment!",
+        variant: "destructive",
+      });
     }
-    toast({
-      title: "Congratulations!👋🏼",
-      description: (
-        <div className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <p className="text-white">Your appointment for normal class has been submitted successfully.✅</p>
-        </div>
-      ),
-    });
   }
 
   return (

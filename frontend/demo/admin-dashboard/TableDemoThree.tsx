@@ -20,16 +20,27 @@ const weekdays = ["Sun","Mon","Tues","Wed","Thu","Fri","Sat"]
 
 const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 
-export function TableDemoThree() {
-  const { data, isLoading, isValidating, error } = useSWR<batchType[]>(
+export function TableBatchEntries() {
+  const { data, isLoading, isValidating, error, mutate } = useSWR<batchType[]>(
     `${process.env.NEXT_PUBLIC_API_URL}/newBatchEntries`,
     fetcher
   );
 
+  // handle delete a batch
+  const handleDelete = async(id:string)=>{
+    try {
+      const res = await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/newBatchEntries/${id}`)
+      console.log(res.data);
+      mutate((data)=>data?.filter((batch)=>batch._id !== id))
+    } catch (error) {
+      console.log(error);  
+    }
+  }
+
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Data fetching error!</div>;
   if (isValidating) return <div>Refreshing...</div>;
-  if (data?.length === 0) return <div>Empty list!</div>;
+  if (data?.length === 0) return <div>Empty list for Batches.</div>;
 
   return (
     <Table className="border border-black">
@@ -37,17 +48,18 @@ export function TableDemoThree() {
       <TableHeader>
         <TableRow>
           <TableHead className="w-[100px]">Teacher Name</TableHead>
-          <TableHead>Batch No.</TableHead>
+          <TableHead>Batch Name</TableHead>
           <TableHead>Times</TableHead>
-          <TableHead className="text-right">Edit</TableHead>
-          <TableHead className="text-right">Delete</TableHead>
+          <TableHead>Status</TableHead>
+          <TableHead>Edit</TableHead>
+          <TableHead>Delete</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
-        {data?.map((attendance: batchType) => (
-          <TableRow key={attendance._id}>
-            <TableCell className="font-medium">{attendance.teacher}</TableCell>
-            <TableCell>{attendance.batch}</TableCell>
+        {data?.map((batch: batchType) => (
+          <TableRow key={batch._id}>
+            <TableCell className="font-medium">{batch.teacher}</TableCell>
+            <TableCell>{batch.batch}</TableCell>
             <TableCell className="text-right">
               <TableRow>
                 <TableCell>
@@ -56,7 +68,7 @@ export function TableDemoThree() {
               </TableRow>
               <TableRow>
                 <TableCell>
-                  {attendance.time
+                  {batch.time
                     .map((value) =>
                       !isNaN(parseInt(value[0], 10)) ? value : "N/A"
                     )
@@ -64,18 +76,19 @@ export function TableDemoThree() {
                 </TableCell>
               </TableRow>
             </TableCell>
+            <TableCell></TableCell>
             <TableCell className="text-right">
               <EditButton name="Edit" type="button" />
             </TableCell>
             <TableCell className="text-right">
-              <EditButton name="Delete" type="button" />
+              <EditButton name="Delete" type="button" onClick={()=>handleDelete(batch._id)}/>
             </TableCell>
           </TableRow>
         ))}
       </TableBody>
       <TableFooter>
         <TableRow>
-          <TableCell colSpan={7}>Total</TableCell>
+          <TableCell colSpan={7}>Total Rows</TableCell>
           <TableCell className="text-right">{data?.length}</TableCell>
         </TableRow>
       </TableFooter>

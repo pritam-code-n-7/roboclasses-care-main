@@ -41,12 +41,13 @@ router.post("/attendances", async (req, res) => {
   // get a single attendance
   router.get("/attendances/:id", async (req, res) => {
     try {
-      const { id } = req.params();
+      const { id } = req.params;
       const data = await Attendance.findById(id);
       console.log(data);
       return res.status(200).json({
         success: true,
         message: "Attendance fetched successfully.",
+        data
       });
     } catch (error) {
       console.error(error);

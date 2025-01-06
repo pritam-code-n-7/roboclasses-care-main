@@ -24,7 +24,7 @@ const Page = () => {
             </BreadcrumbItem>
             <BreadcrumbSeparator className="hidden md:block" />
             <BreadcrumbItem>
-              <BreadcrumbPage>{pathname == '/attendance' && 'Attendance'}</BreadcrumbPage>
+              <BreadcrumbPage>{pathname == '/attendance' && 'Take Attendance'}</BreadcrumbPage>
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
@@ -33,7 +33,7 @@ const Page = () => {
     <div className="grid grid-cols-2">
       <Image width={1200} height={1200} src={'/assests/images/spikeprime.webp'} alt="wallpaper" className="min-h-screen object-cover"/>
     <div className="w-[600px] flex flex-col justify-center gap-5 p-20">
-      <p className="text-4xl font-bold">Take Attendances</p>
+      <p className="text-4xl font-bold">Take Attendance</p>
       <AttendanceForm />
     </div>
     </div>

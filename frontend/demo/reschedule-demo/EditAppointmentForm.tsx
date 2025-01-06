@@ -1,9 +1,9 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import React from "react";
-import { appointmentTypes } from "../admin-dashboard/TableDemoOne";
 
 import { format } from "date-fns";
+import { appointmentTypes } from "@/types/Types";
 
 const EditAppointmentForm = ({ date, time, handleDateChange, handleTimeChange, handleSubmit, handleDelete }: appointmentTypes) => {
   return (

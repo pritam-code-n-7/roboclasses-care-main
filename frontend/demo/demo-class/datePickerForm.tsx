@@ -69,17 +69,20 @@ export function DatePickerForm() {
       const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/appointments/demoClass`,data);
       console.log(res.data);
       form.reset();
+      toast({
+        title: "Congratulations!",
+        description: "Your appointment has been submitted successfully.✅",
+        variant:"default"
+      });
     } catch (error) {
-      console.error("Error booking appointment", error);
+      console.error(error);
+      toast({
+        title: "Hi, ",
+        description: "Unable to submit appointment!",
+        variant:"destructive"
+      });
     }
-    toast({
-      title: "Congratulations!👋🏼",
-      description: (
-        <div className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <p className="text-white">Your appointment has been submitted successfully.✅</p>
-        </div>
-      ),
-    });
+    
   }
 
   return (

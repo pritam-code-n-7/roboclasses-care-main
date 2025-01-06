@@ -39,7 +39,12 @@ const Page = ({ params }: { params: { id: string } }) => {
         console.log(res.data.time);
         console.log(res.data.userName);
       } catch (error) {
-        console.error("data fetching error", error);
+        console.error(error);
+        toast({
+          title: "Hi,",
+          description: "data fetching error!",
+          variant: "destructive",
+        });
       }
     };
     handleFetchOne();
@@ -55,15 +60,17 @@ const Page = ({ params }: { params: { id: string } }) => {
       console.log(res.data);
 
       toast({
-        title: "Congratulations!👋🏼",
-      description: (
-        <div className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <p className="text-white">Your appointment is now updated successfully.✅</p>
-        </div>
-      ),
+        title: "Congratulations!",
+        description: "Your appointment is now updated successfully.✅",
+        variant: "default",
       });
     } catch (error) {
-      console.log("Unable to update" + error);
+      console.log(error);
+      toast({
+        title: "Hi, ",
+        description: "Unable to update.",
+        variant: "destructive",
+      });
     }
   };
 
@@ -75,15 +82,17 @@ const Page = ({ params }: { params: { id: string } }) => {
       );
       console.log(res.data);
       toast({
-        title: "Congratulations!👋🏼",
-      description: (
-        <div className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <p className="text-white">Your appointment got cancelled.✅</p>
-        </div>
-      ),
+        title: "Congratulations!",
+        description: "Your appointment got cancelled.✅",
+        variant: "default",
       });
     } catch (error) {
-      console.log("Unable to delete" + error);
+      console.log(error);
+      toast({
+        title: "Hi,",
+        description: "Unable to cancel!",
+        variant: "destructive",
+      });
     }
   };
 
@@ -128,8 +137,12 @@ const Page = ({ params }: { params: { id: string } }) => {
           <EditAppointmentForm
             date={date}
             time={time}
-            handleDateChange={(e: { target: { value: string | number | Date; }; }) => setDate(new Date(e.target.value))}
-            handleTimeChange={(e: { target: { value: React.SetStateAction<string>; }; }) => setTime(e.target.value)}
+            handleDateChange={(e: {
+              target: { value: string | number | Date };
+            }) => setDate(new Date(e.target.value))}
+            handleTimeChange={(e: {
+              target: { value: React.SetStateAction<string> };
+            }) => setTime(e.target.value)}
             handleSubmit={handleUpdate}
             handleDelete={handleCancelAppointment}
           />

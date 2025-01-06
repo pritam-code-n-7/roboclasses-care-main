@@ -17,10 +17,9 @@ import axios from "axios";
 import Link from "next/link";
 import { appointmentTypes } from "@/types/Types";
 
-
 const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 
-export function TableDemoOne() {
+export function TableDemoClass() {
   const { data, error, isLoading, mutate } = useSWR<appointmentTypes[]>(
     `${process.env.NEXT_PUBLIC_API_URL}/appointments/demoClass`,
     fetcher
@@ -41,7 +40,7 @@ export function TableDemoOne() {
       console.log(error);
     }
   };
-
+  if (data?.length === 0) return <div>Empty List for Demo Class.</div>;
   if (error) return <div>failed to load</div>;
   if (isLoading) return <div>loading...</div>;
 
@@ -54,10 +53,10 @@ export function TableDemoOne() {
           <TableHead className="w-[100px]">Course Name</TableHead>
           <TableHead className="w-[100px]">Teacher Name</TableHead>
           <TableHead>Date</TableHead>
-          <TableHead className="text-right">Time</TableHead>
-          <TableHead className="text-right">Status</TableHead>
-          <TableHead className="text-right">Edit</TableHead>
-          <TableHead className="text-right">Delete</TableHead>
+          <TableHead>Time</TableHead>
+          <TableHead>Status</TableHead>
+          <TableHead>Edit</TableHead>
+          <TableHead>Delete</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -69,9 +68,7 @@ export function TableDemoOne() {
             <TableCell className="font-medium">{appointment.course}</TableCell>
             <TableCell className="font-medium">{appointment.teacher}</TableCell>
 
-            <TableCell>
-              {format(appointment.date, "MMM dd, yyyy")}
-            </TableCell>
+            <TableCell>{format(appointment.date, "MMM dd, yyyy")}</TableCell>
             <TableCell className="text-right">{appointment.time}</TableCell>
             <TableCell className="text-right">
               <EditButton
@@ -102,7 +99,7 @@ export function TableDemoOne() {
       </TableBody>
       <TableFooter>
         <TableRow>
-          <TableCell colSpan={7}>Total</TableCell>
+          <TableCell colSpan={7}>Total Rows</TableCell>
           <TableCell className="text-right">{data?.length}</TableCell>
         </TableRow>
       </TableFooter>

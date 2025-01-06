@@ -34,7 +34,7 @@ const TeacherViewTableDayWise = () => {
       <TableCaption>A list of teachers</TableCaption>
       <TableHeader>
         <TableRow>
-          <TableHead>Batch No.</TableHead>
+          <TableHead>Batch Name</TableHead>
           <TableHead>Date</TableHead>
           <TableHead>Assessment Score</TableHead>
         </TableRow>
@@ -52,7 +52,7 @@ const TeacherViewTableDayWise = () => {
       </TableBody>
       <TableFooter>
         <TableRow>
-          <TableCell colSpan={3}>Total</TableCell>
+          <TableCell colSpan={3}>Total Rows</TableCell>
           <TableCell className="text-right">{1}</TableCell>
         </TableRow>
       </TableFooter>

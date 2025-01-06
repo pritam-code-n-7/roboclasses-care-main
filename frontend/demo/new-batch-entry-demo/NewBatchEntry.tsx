@@ -118,18 +118,21 @@ export function NewBatchEntryForm() {
       );
       console.log(res.data);
       form.reset();
+      toast({
+        title: "Congratulations!",
+        description: "New batch has been created.✅",
+        variant:"default"
+      });
     } catch (error) {
       console.error("Error booking appointment", error);
+      toast({
+        title: "Hi, ",
+        description: "Unable to create batch!",
+        variant:"destructive"
+      });
     }
 
-    toast({
-      title: "Congratulations!👋🏼",
-      description: (
-        <div className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <p className="text-white">New batch has been created.✅</p>
-        </div>
-      ),
-    });
+   
   }
 
   return (
