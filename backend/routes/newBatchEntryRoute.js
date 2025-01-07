@@ -18,7 +18,7 @@ router.post("/newBatchEntries", async (req, res) => {
 
     res.status(201).json({
       success: true,
-      message: "New batch successfully created.",
+      message: "New batch successfully created.", data
     });
   } catch (error) {
     console.error(error);
@@ -78,7 +78,7 @@ router.put("/newBatchEntries/:id", async (req, res) => {
 
     return res.status(200).json({
       success: true,
-      message: "New batch successfully updated.",
+      message: "New batch successfully updated.", data
     });
   } catch (error) {
     console.error(error);
@@ -102,7 +102,7 @@ router.patch("/newBatchEntries/:id", async (req, res) => {
 
     return res.status(200).json({
       success: true,
-      message: "New batch partially updated.",
+      message: "New batch partially updated.", data
     });
   } catch (error) {
     console.error(error);
@@ -122,7 +122,7 @@ router.delete("/newBatchEntries/:id", async (req, res) => {
 
     return res.status(200).json({
       success: true,
-      message: "New batch successfully deleted.",
+      message: "New batch successfully deleted.", data
     });
   } catch (error) {
     console.error(error);

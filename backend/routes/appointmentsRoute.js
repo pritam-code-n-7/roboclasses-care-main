@@ -34,7 +34,7 @@ router.post("/appointments/demoClass", async (req, res) => {
     console.log(createAppointments);
     return res.status(201).json({
       success: true,
-      message: "appointment create successfully.",
+      message: "appointment created successfully.", createAppointments
     });
   } catch (error) {
     console.error(error);
@@ -92,6 +92,7 @@ router.put("/appointments/demoClass/:id", async (req, res) => {
     return res.status(200).json({
       success: true,
       message: "Your appointment is now rescheduled successfully.",
+      data
     });
   } catch (error) {
     return res.status(500).json({
@@ -110,7 +111,7 @@ router.delete("/appointments/demoClass/:id", async (req, res) => {
 
     return res.status(200).json({
       success: true,
-      message: "Your appointment is now deleted successfully.",
+      message: "Your appointment is now deleted successfully.", data
     });
   } catch (error) {
     return res.status(500).json({
@@ -133,7 +134,7 @@ router.patch("/appointments/demoClass/:id", async (req, res) => {
 
     return res.status(200).json({
       success: true,
-      message: "Your appointment status updated successfully.",
+      message: "Your appointment status updated successfully.", data
     });
   } catch (error) {
     console.error(error);

@@ -12,7 +12,7 @@ router.post("/appointments/normalClass", async (req, res) => {
     console.log(data);
     return res.status(201).json({
       success: true,
-      message: "Appointment created successfully.",
+      message: "Appointment created successfully.", data
     });
   } catch (error) {
     console.error(error);
@@ -68,7 +68,7 @@ router.put("/appointments/normalClass/:id", async (req, res) => {
 
     return res.status(200).json({
       success: true,
-      message: "Appointment successfully updated",
+      message: "Appointment successfully updated", data
     });
   } catch (error) {
     console.error(error);
@@ -92,7 +92,7 @@ router.patch("/appointments/normalClass/:id", async (req, res) => {
 
     return res.status(200).json({
       success: true,
-      message: "Appointment partially updated.",
+      message: "Appointment partially updated.", data
     });
   } catch (error) {
     console.error(error);
@@ -112,7 +112,7 @@ router.delete("/appointments/normalClass/:id", async (req, res) => {
 
     return res.status(200).json({
       success: true,
-      message: "Appointment successfully deleted.",
+      message: "Appointment successfully deleted.", data
     });
   } catch (error) {
     console.error(error);
