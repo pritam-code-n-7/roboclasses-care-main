@@ -29,6 +29,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { useParams } from "next/navigation";
 
 const weekdays = [
   {
@@ -100,7 +101,7 @@ const FormSchema = z.object({
   }),
 });
 
-export function NewBatchEntryForm() {
+export function EditBatchForm() {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -110,24 +111,27 @@ export function NewBatchEntryForm() {
     },
   });
 
+  const {id} = useParams();
+
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     try {
-      const res = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/newBatchEntries`,
+      const res = await axios.put(
+        `${process.env.NEXT_PUBLIC_API_URL}/newBatchEntries/${id}`,
         data
       );
       console.log(res.data);
       form.reset();
+      const {message} = res.data;
       toast({
         title: "Congratulations!",
-        description: "New batch has been created.✅",
+        description: message,
         variant:"default"
       });
     } catch (error) {
       console.error(error);
       toast({
         title: "Hi, ",
-        description: "Unable to create batch!",
+        description: "Unable to update batch!",
         variant:"destructive"
       });
     }

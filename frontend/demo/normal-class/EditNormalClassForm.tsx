@@ -2,7 +2,6 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { format } from "date-fns";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -10,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -18,7 +18,7 @@ import {
 
 import { toast } from "@/hooks/use-toast";
 import { Input } from "@/components/ui/input";
-import axios from "axios";
+import { Checkbox } from "@/components/ui/checkbox";
 
 import {
   Table,
@@ -29,6 +29,19 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import axios from "axios";
+import { useParams } from "next/navigation";
+
+const items = [
+  {
+    id: "24hours",
+    label: "24 Hours",
+  },
+  {
+    id: "1hour",
+    label: "1 Hour",
+  },
+];
 
 const weekdays = [
   {
@@ -86,53 +99,57 @@ const times = [
 ];
 
 const FormSchema = z.object({
+  time: z.array(z.string()).refine((value) => value.some((item) => item), {
+    message: "You have to select at least one time.",
+  }),
 
-  batch: z
-    .string()
-    .min(1, { message: "Batch number must contain atleast 1 character" }),
-
+  items: z.array(z.string()).refine((value) => value.some((item) => item), {
+    message: "You have to select at least one item.",
+  }),
   teacher: z
     .string()
     .min(2, { message: "Teacher name must contain atleast 2 character." }),
 
-  time: z.array(z.string()).refine((value) => value.some((item) => item), {
-    message: "You have to select at least one time.",
-  }),
+  batch: z
+    .string()
+    .min(2, { message: "Batch name must contain atleast 2 character." }),
 });
 
-export function NewBatchEntryForm() {
-  const form = useForm<z.infer<typeof FormSchema>>({
+export function EditNormalClassForm() {
+  const form = useForm({
     resolver: zodResolver(FormSchema),
     defaultValues: {
       teacher: "",
-      batch: "",
+      batch: "Prime B21",
       time: ["sun", "mon", "tue", "wed", "thu", "fri", "sat"],
+      items: ["1hour"],
     },
   });
 
-  async function onSubmit(data: z.infer<typeof FormSchema>) {
+  const {id} = useParams();
+
+  async function onSubmit(data: unknown) {
     try {
-      const res = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/newBatchEntries`,
+      const res = await axios.put(
+        `${process.env.NEXT_PUBLIC_API_URL}/appointments/normalClass/${id}`,
         data
       );
       console.log(res.data);
       form.reset();
+      const {message} = res.data;
       toast({
         title: "Congratulations!",
-        description: "New batch has been created.✅",
-        variant:"default"
+        description:message,
+        variant: "default",
       });
     } catch (error) {
-      console.error(error);
+      console.error("Error booking appointment", error);
       toast({
         title: "Hi, ",
-        description: "Unable to create batch!",
-        variant:"destructive"
+        description: "unable to update Normal Class appointment!",
+        variant: "destructive",
       });
     }
-
-   
   }
 
   return (
@@ -179,15 +196,10 @@ export function NewBatchEntryForm() {
           name="batch"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="font-semibold">Batch Number</FormLabel>
+              <FormLabel className="font-semibold">Batch Details</FormLabel>
 
               <FormControl>
-                <Input
-                  placeholder="e.g. Python B12 L1"
-                  {...field}
-                  required
-                  className="bg-white"
-                />
+                <Input {...field} required className="bg-white" />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -202,7 +214,7 @@ export function NewBatchEntryForm() {
 
               <FormControl>
                 <Input
-                  placeholder="e.g. Monty"
+                  placeholder="Enter your teacher name"
                   {...field}
                   required
                   className="bg-white"
@@ -213,7 +225,58 @@ export function NewBatchEntryForm() {
           )}
         />
 
-        <Button type="submit">Submit</Button>
+        <FormField
+          control={form.control}
+          name="items"
+          render={() => (
+            <FormItem>
+              <div className="mb-4">
+                <FormLabel className="font-bold">
+                  When to send the Reminder
+                </FormLabel>
+                <FormDescription>
+                  Select the time which you want!
+                </FormDescription>
+              </div>
+              {items.map((item) => (
+                <FormField
+                  key={item.id}
+                  control={form.control}
+                  name="items"
+                  render={({ field }) => {
+                    return (
+                      <FormItem
+                        key={item.id}
+                        className="flex flex-row items-start space-x-3 space-y-0"
+                      >
+                        <FormControl>
+                          <Checkbox
+                            checked={field.value?.includes(item.id)}
+                            onCheckedChange={(checked) => {
+                              return checked
+                                ? field.onChange([...field.value, item.id])
+                                : field.onChange(
+                                    field.value?.filter(
+                                      (value) => value !== item.id
+                                    )
+                                  );
+                            }}
+                          />
+                        </FormControl>
+                        <FormLabel className="font-normal">
+                          {item.label}
+                        </FormLabel>
+                      </FormItem>
+                    );
+                  }}
+                />
+              ))}
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <Button type="submit">Book</Button>
       </form>
     </Form>
   );

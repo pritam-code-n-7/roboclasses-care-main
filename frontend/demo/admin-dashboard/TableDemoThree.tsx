@@ -13,6 +13,7 @@ import { EditButton } from "./EditButton";
 import useSWR from "swr";
 import axios from "axios";
 import { batchType } from "@/types/Types";
+import Link from "next/link";
 
 
 
@@ -78,7 +79,9 @@ export function TableBatchEntries() {
             </TableCell>
             <TableCell></TableCell>
             <TableCell className="text-right">
+              <Link href={`/newBatchEntry/edit/${batch._id}`}>
               <EditButton name="Edit" type="button" />
+              </Link>
             </TableCell>
             <TableCell className="text-right">
               <EditButton name="Delete" type="button" varient="destructive" onClick={()=>handleDelete(batch._id)}/>

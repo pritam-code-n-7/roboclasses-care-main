@@ -12,6 +12,7 @@ import { EditButton } from "./EditButton";
 import axios from "axios";
 import useSWR from "swr";
 import { normalClassType } from "@/types/Types";
+import Link from "next/link";
 
 const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 
@@ -75,7 +76,9 @@ export function TableNormalClass() {
             </TableCell>
             <TableCell></TableCell>
             <TableCell>
+              <Link href={`/appointment/reminder/normal-class/edit/${appointment._id}`}>
               <EditButton name="Edit" type="button" />
+              </Link>
             </TableCell>
             <TableCell className="text-right">
               <EditButton
