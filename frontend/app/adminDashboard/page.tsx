@@ -12,7 +12,6 @@ import { CollapsibleDemo } from "@/demo/admin-dashboard/CollapsibleDemo";
 import { TableDemoClass } from "@/demo/admin-dashboard/TableDemoOne";
 import { TableBatchEntries } from "@/demo/admin-dashboard/TableDemoThree";
 import { TableNormalClass } from "@/demo/admin-dashboard/TableDemoTwo";
-import TeacherViewTableDateWise from "@/demo/teacher-view-demo/TeacherViewTableDateWise";
 import { Separator } from "@radix-ui/react-separator";
 import { usePathname } from "next/navigation";
 import React from "react";
@@ -48,7 +47,6 @@ const Page = () => {
       <div className="w-[1200px] grid grid-cols-1 space-y-10 p-20">
         <CollapsibleDemo />
         <TableBatchEntries />
-        <TeacherViewTableDateWise />
       </div>
     </SidebarInset>
   );
